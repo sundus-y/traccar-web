@@ -147,6 +147,7 @@ Ext.define('Traccar.view.ReportController', {
         this.lookupReference('showButton').setDisabled(disabled);
         this.lookupReference('exportButton').setDisabled(reportType === 'chart' || disabled);
         this.lookupReference('emailButton').setDisabled(reportType === 'chart' || disabled);
+        this.lookupReference('exportGPXButton').setDisabled(reportType !== 'route' || disabled);
     },
 
     onReportClick: function (button) {
@@ -188,6 +189,15 @@ Ext.define('Traccar.view.ReportController', {
                         from: from.toISOString(),
                         to: to.toISOString()
                     }
+                });
+            } else if (button.reference === 'exportGPXButton') {
+                url = this.getGrid().getStore().getProxy().gpxUrl;
+                this.downloadGPXFile(url, {
+                    deviceId: this.deviceId,
+                    groupId: this.groupId,
+                    type: this.eventType,
+                    from: Ext.Date.format(from, 'c'),
+                    to: Ext.Date.format(to, 'c')
                 });
             } else {
                 url = this.getGrid().getStore().getProxy().url;
@@ -388,6 +398,48 @@ Ext.define('Traccar.view.ReportController', {
             callback: function (options, success, response) {
                 var disposition, filename, type, blob, url, downloadUrl;
                 if (success && !requestParams.mail) {
+                    disposition = response.getResponseHeader('Content-Disposition');
+                    filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
+                    type = response.getResponseHeader('Content-Type');
+                    blob = new Blob([response.responseBytes], {type: type});
+                    if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                        // IE workaround
+                        window.navigator.msSaveBlob(blob, filename);
+                    } else {
+                        url = window.URL || window.webkitURL;
+                        downloadUrl = url.createObjectURL(blob);
+                        if (filename) {
+                            Ext.dom.Helper.append(Ext.getBody(), {
+                                tag: 'a',
+                                href: downloadUrl,
+                                download: filename
+                            }).click();
+                        }
+                        setTimeout(function () {
+                            url.revokeObjectURL(downloadUrl);
+                        }, 100);
+                    }
+                }
+                this.reportProgress = false;
+                this.updateButtons();
+            }
+        });
+    },
+
+    downloadGPXFile: function (requestUrl, requestParams) {
+        Ext.Ajax.request({
+            url: requestUrl,
+            method: 'GET',
+            timeout: Traccar.Style.reportTimeout,
+            params: requestParams,
+            headers: {
+                Accept: 'application/gpx+xml'
+            },
+            binary: true,
+            scope: this,
+            callback: function (options, success, response) {
+                var disposition, filename, type, blob, url, downloadUrl;
+                if (success) {
                     disposition = response.getResponseHeader('Content-Disposition');
                     filename = disposition.slice(disposition.indexOf('=') + 1, disposition.length);
                     type = response.getResponseHeader('Content-Type');
