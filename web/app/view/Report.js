@@ -63,6 +63,11 @@ Ext.define('Traccar.view.Report', {
             disabled: true,
             handler: 'onReportClick'
         }, {
+            text: 'Export GPX',
+            reference: 'exportGPXButton',
+            disabled: true,
+            handler: 'onReportClick'
+        }, {
             text: Strings.reportClear,
             handler: 'onClearClick'
         }]
