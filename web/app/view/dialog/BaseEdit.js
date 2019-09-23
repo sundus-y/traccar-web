@@ -26,6 +26,7 @@ Ext.define('Traccar.view.dialog.BaseEdit', {
 
     buttons: [{
         text: Strings.sharedAttributes,
+        reference: 'showAttributeButton',
         handler: 'showAttributesView'
     }, {
         xtype: 'tbfill'

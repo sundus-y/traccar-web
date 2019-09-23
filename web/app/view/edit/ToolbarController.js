@@ -37,6 +37,21 @@ Ext.define('Traccar.view.edit.ToolbarController', {
         dialog.show();
     },
 
+    onViewClick: function () {
+        var dialog, objectInstance = this.getView().getSelectionModel().getSelection()[0];
+        dialog = Ext.create(this.objectDialog);
+        dialog.down('form').loadRecord(objectInstance);
+        dialog.down('form').items.items.forEach(function(item){
+            item.setReadOnly && item.setReadOnly(true);
+            item.items.items.forEach(function(item){
+                item.setReadOnly && item.setReadOnly(true);
+            });
+        });
+        dialog.lookupReference('saveButton').setHidden(true);
+        dialog.lookupReference('showAttributeButton').setHidden(true);
+        dialog.show();
+    },
+
     onRemoveClick: function () {
         var objectInstance = this.getView().getSelectionModel().getSelection()[0];
         Ext.Msg.show({

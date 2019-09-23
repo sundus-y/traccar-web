@@ -58,6 +58,11 @@ Ext.define('Traccar.view.edit.Devices', {
             glyph: 'xf040@FontAwesome',
             tooltip: Strings.sharedEdit
         }, {
+            handler: 'onViewClick',
+            reference: 'toolbarViewButton',
+            glyph: 'xf06e@FontAwesome',
+            tooltip: Strings.sharedView
+        }, {
             handler: 'onRemoveClick',
             reference: 'toolbarRemoveButton',
             glyph: 'xf00d@FontAwesome',
