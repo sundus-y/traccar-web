@@ -95,6 +95,45 @@ Ext.define('Traccar.view.edit.Groups', {
             dataIndex: 'name',
             filter: 'string'
         }, {
+            text: Strings.groupManagerName,
+            dataIndex: 'managerName',
+            filter: 'string'
+        }, {
+            text: Strings.groupContactNumber1,
+            dataIndex: 'contactNumber1',
+            filter: 'string'
+        }, {
+            text: Strings.groupContactNumber2,
+            dataIndex: 'contactNumber2',
+            filter: 'string',
+            hidden: true,
+        }, {
+            text: Strings.groupContactNumber3,
+            dataIndex: 'contactNumber3',
+            filter: 'string',
+            hidden: true,
+        }, {
+            text: Strings.groupTINNumber,
+            dataIndex: 'tinNumber',
+            filter: 'string',
+            hidden: true,
+        }, {
+            text: Strings.groupLicenseNumber,
+            dataIndex: 'licenseNumber',
+            filter: 'string',
+            hidden: true,
+        }, {
+            text: Strings.groupAddress,
+            dataIndex: 'address',
+            filter: 'string',
+            hidden: true,
+        }, {
+            text: Strings.groupNote,
+            dataIndex: 'note',
+            filter: 'string',
+            hidden: true,
+        },
+            {
             text: Strings.groupDialog,
             dataIndex: 'groupId',
             hidden: true,

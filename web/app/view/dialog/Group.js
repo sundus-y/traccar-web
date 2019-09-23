@@ -35,13 +35,45 @@ Ext.define('Traccar.view.dialog.Group', {
                 name: 'name',
                 fieldLabel: Strings.sharedName,
                 allowBlank: false
+            }, {
+                xtype: 'unescapedTextField',
+                name: 'managerName',
+                fieldLabel: Strings.groupManagerName
+            }, {
+                xtype: 'unescapedTextField',
+                name: 'contactNumber1',
+                fieldLabel: Strings.groupContactNumber1
+            }, {
+                xtype: 'unescapedTextField',
+                name: 'tinNumber',
+                fieldLabel: Strings.groupTINNumber
+            }, {
+                xtype: 'unescapedTextField',
+                name: 'licenseNumber',
+                fieldLabel: Strings.groupLicenseNumber
             }]
         }, {
             xtype: 'fieldset',
             title: Strings.sharedExtra,
             collapsible: true,
-            collapsed: true,
+            collapsed: false,
             items: [{
+                xtype: 'unescapedTextField',
+                name: 'contactNumber2',
+                fieldLabel: Strings.groupContactNumber2
+            }, {
+                xtype: 'unescapedTextField',
+                name: 'contactNumber3',
+                fieldLabel: Strings.groupContactNumber3
+            }, {
+                xtype: 'unescapedTextField',
+                name: 'address',
+                fieldLabel: Strings.groupAddress
+            }, {
+                xtype: 'textareafield',
+                name: 'note',
+                fieldLabel: Strings.groupNote
+            }, {
                 xtype: 'clearableComboBox',
                 name: 'groupId',
                 fieldLabel: Strings.groupParent,

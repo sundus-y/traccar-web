@@ -26,6 +26,30 @@ Ext.define('Traccar.model.Group', {
         name: 'name',
         type: 'string'
     }, {
+        name: 'managerName',
+        type: 'string'
+    }, {
+        name: 'contactNumber1',
+        type: 'string'
+    }, {
+        name: 'contactNumber2',
+        type: 'string'
+    }, {
+        name: 'contactNumber3',
+        type: 'string'
+    }, {
+        name: 'tinNumber',
+        type: 'string'
+    }, {
+        name: 'licenseNumber',
+        type: 'string'
+    }, {
+        name: 'address',
+        type: 'string'
+    }, {
+        name: 'note',
+        type: 'string'
+    }, {
         name: 'groupId',
         type: 'int'
     }, {
