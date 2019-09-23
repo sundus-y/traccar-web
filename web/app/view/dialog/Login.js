@@ -47,7 +47,7 @@ Ext.define('Traccar.view.dialog.Login', {
             height: 64,
             style: {
                 display: 'block',
-                margin: '10px auto 25px'
+                margin: '5px auto 10px'
             }
         }, {
             xtype: 'combobox',
