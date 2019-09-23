@@ -62,5 +62,18 @@ Ext.define('Traccar.model.Device', {
         name: 'geofenceIds'
     }, {
         name: 'attributes'
+    }, {
+        name: 'plateNumber',
+        type: 'string',
+        allowNull: true
+    }, {
+        name: 'membershipDate',
+        type: 'date',
+        dateFormat: 'c',
+        allowNull: true
+    }, {
+        name: 'vehicleModel',
+        type: 'string',
+        allowNull: true
     }]
 });

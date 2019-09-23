@@ -226,6 +226,10 @@ Ext.define('Traccar.AttributeFormatter', {
                 return this.driverUniqueIdFormatter;
             case 'commandType':
                 return this.commandTypeFormatter;
+            case 'membershipDate':
+                return function(value) {
+                    return Ext.Date.format(value, Traccar.Style.dateFormat);
+                };
             default:
                 return this.defaultFormatter;
         }

@@ -107,17 +107,34 @@ Ext.define('Traccar.view.edit.Devices', {
             hidden: true,
             filter: 'string'
         }, {
-            text: Strings.sharedPhone,
-            dataIndex: 'phone',
-            hidden: true
-        }, {
             text: Strings.deviceModel,
             dataIndex: 'model',
-            hidden: true
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.devicePlateNumber,
+            dataIndex: 'plateNumber',
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.vehicleModel,
+            dataIndex: 'vehicleModel',
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.membershipDate,
+            dataIndex: 'membershipDate',
+            renderer: Traccar.AttributeFormatter.getFormatter('membershipDate')
+        }, {
+            text: Strings.sharedPhone,
+            dataIndex: 'phone',
+            hidden: true,
+            filter: 'string',
         }, {
             text: Strings.deviceContact,
             dataIndex: 'contact',
-            hidden: true
+            hidden: true,
+            filter: 'string',
         }, {
             text: Strings.groupDialog,
             dataIndex: 'groupId',

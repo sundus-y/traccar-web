@@ -20,6 +20,38 @@ Ext.define('Traccar.store.DeviceAttributes', {
     model: 'Traccar.model.KnownAttribute',
 
     data: [{
+        key: 'web.contactGender',
+        name: Strings.attributeGender,
+        valueType: 'string'
+    }, {
+        key: 'web.vehicleCountryOfManufacturing',
+        name: Strings.attributeCountryOfManufacturing,
+        valueType: 'string'
+    }, {
+        key: 'web.vehicleManufacturingYear',
+        name: Strings.attributeManufacturingYear,
+        valueType: 'string'
+    }, {
+        key: 'web.vehicleEngineNumber',
+        name: Strings.attributeEngineNumber,
+        valueType: 'string'
+    }, {
+        key: 'web.vehicleVINNumber',
+        name: Strings.attributeVINNumber,
+        valueType: 'string'
+    }, {
+        key: 'web.vehicleOldPlateNumber',
+        name: Strings.attributeOldPlateNumber,
+        valueType: 'string'
+    }, {
+        key: 'web.deviceSIMNumber',
+        name: Strings.attributeSIMNumber,
+        valueType: 'string'
+    }, {
+        key: 'web.deviceSIMICCIDNumber',
+        name: Strings.attributeSIMICCIDNumber,
+        valueType: 'string'
+    }, {
         key: 'web.reportColor',
         name: Strings.attributeWebReportColor,
         valueType: 'color'
