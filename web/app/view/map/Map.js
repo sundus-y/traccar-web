@@ -61,20 +61,23 @@ Ext.define('Traccar.view.map.Map', {
         }, {
             handler: 'updateGeofences',
             reference: 'showGeofencesButton',
-            glyph: 'xf21d@FontAwesome',
+            // glyph: 'xf21d@FontAwesome',
             pressed: true,
             stateId: 'show-geofences-button',
-            tooltip: Strings.sharedGeofences
+            tooltip: Strings.sharedGeofences,
+            text: Strings.sharedGeofences
         }, {
             handler: 'showLiveRoutes',
             reference: 'showLiveRoutes',
-            glyph: 'xf1b0@FontAwesome',
+            // glyph: 'xf1b0@FontAwesome',
             stateId: 'show-live-routes-button',
-            tooltip: Strings.mapLiveRoutes
+            tooltip: Strings.mapLiveRoutes,
+            text: Strings.mapLiveRoutes
         }, {
             reference: 'deviceFollowButton',
-            glyph: 'xf05b@FontAwesome',
+            // glyph: 'xf05b@FontAwesome',
             tooltip: Strings.deviceFollow,
+            text: Strings.deviceFollow,
             stateId: 'device-follow-button',
             toggleHandler: 'onFollowClick'
         }, {
