@@ -75,5 +75,33 @@ Ext.define('Traccar.model.Device', {
         name: 'vehicleModel',
         type: 'string',
         allowNull: true
+    }, {
+        name: 'gender',
+        type: 'string',
+        allowNull: true
+    }, {
+        name: 'countryOfManufacturing',
+        type: 'string',
+        allowNull: true
+    }, {
+        name: 'manufacturingYear',
+        type: 'string',
+        allowNull: true
+    }, {
+        name: 'engineNumber',
+        type: 'string',
+        allowNull: true
+    }, {
+        name: 'vinNumber',
+        type: 'string',
+        allowNull: true
+    }, {
+        name: 'simNumber',
+        type: 'string',
+        allowNull: true
+    }, {
+        name: 'simIccidNumber',
+        type: 'string',
+        allowNull: true
     }]
 });

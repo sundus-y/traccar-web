@@ -23,92 +23,163 @@ Ext.define('Traccar.view.dialog.Device', {
         'Traccar.view.dialog.DeviceController',
         'Traccar.view.UnescapedTextField'
     ],
-
     controller: 'device',
     title: Strings.sharedDevice,
-
     items: {
         xtype: 'form',
         items: [{
             xtype: 'fieldset',
-            title: Strings.sharedRequired,
-            items: [{
-                xtype: 'unescapedTextField',
-                name: 'name',
-                fieldLabel: Strings.sharedName,
-                allowBlank: false
-            }, {
-                xtype: 'unescapedTextField',
-                name: 'uniqueId',
-                fieldLabel: Strings.deviceIdentifier,
-                allowBlank: false
-            }, {
-                xtype: 'unescapedTextField',
-                name: 'model',
-                fieldLabel: Strings.deviceModel
-            }]
+            title: Strings.sharedDeviceDetails,
+            layout: "column",
+            items: [
+                {
+                    xtype: 'container',
+                    width: '300px',
+                    items: [
+                        {
+                            xtype: 'unescapedTextField',
+                            name: 'name',
+                            fieldLabel: Strings.sharedName,
+                            allowBlank: false
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'uniqueId',
+                            fieldLabel: Strings.deviceIdentifier,
+                            allowBlank: false
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'model',
+                            fieldLabel: Strings.deviceModel
+                        }
+                    ]
+                }, {
+                    xtype: 'container',
+                    items: [{
+                            xtype: 'unescapedTextField',
+                            name: 'simNumber',
+                            fieldLabel: Strings.attributeSIMNumber,
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'simIccidNumber',
+                            fieldLabel: Strings.attributeSIMICCIDNumber,
+                            labelWidth: 'auto',
+                        },{
+                            xtype: 'checkboxfield',
+                            inputValue: true,
+                            uncheckedValue: false,
+                            name: 'disabled',
+                            fieldLabel: Strings.sharedDisabled,
+                            hidden: true,
+                            reference: 'disabledField'
+                        }
+                    ]
+                }
+            ]
         }, {
             xtype: 'fieldset',
-            title: Strings.sharedExtra,
-            collapsible: true,
-            collapsed: false,
-            items: [{
-                xtype: 'clearableComboBox',
-                name: 'groupId',
-                fieldLabel: Strings.groupParent,
-                store: 'Groups',
-                queryMode: 'local',
-                displayField: 'name',
-                valueField: 'id'
-            }, {
-                xtype: 'unescapedTextField',
-                name: 'contact',
-                fieldLabel: Strings.deviceContact
-            }, {
-                xtype: 'unescapedTextField',
-                name: 'phone',
-                fieldLabel: Strings.sharedPhone
-            }, {
-                xtype: 'unescapedTextField',
-                name: 'plateNumber',
-                fieldLabel: Strings.devicePlateNumber
-            }, {
-                xtype: 'unescapedTextField',
-                name: 'vehicleModel',
-                fieldLabel: Strings.vehicleModel
-            }, {
-                xtype: 'datefield',
-                name: 'membershipDate',
-                reference: 'membershipDateField',
-                fieldLabel: Strings.membershipDate,
-                startDay: Traccar.Style.weekStartDay,
-                format: Traccar.Style.dateFormat
-            }, {
-                xtype: 'combobox',
-                name: 'category',
-                fieldLabel: Strings.deviceCategory,
-                store: 'DeviceImages',
-                queryMode: 'local',
-                displayField: 'name',
-                valueField: 'key',
-                editable: false,
-                listConfig: {
-                    getInnerTpl: function () {
-                        return '<table><tr valign="middle" ><td><div align="center" style="width:40px;height:40px;" >' +
-                        '{[new XMLSerializer().serializeToString(Traccar.DeviceImages.getImageSvg(' +
-                        'Traccar.Style.mapColorOnline, false, 0, values.key))]}</div></td>' +
-                        '<td>{name}</td></tr></table>';
-                    }
+            title: Strings.deviceContactDetails,
+            layout: "column",
+            items: [
+                {
+                    xtype: 'container',
+                    width: '300px',
+                    items: [
+                        {
+                            xtype: 'unescapedTextField',
+                            name: 'contact',
+                            fieldLabel: Strings.deviceContact
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'gender',
+                            fieldLabel: Strings.attributeGender,
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'phone',
+                            fieldLabel: Strings.sharedPhone
+                        },
+                    ]
+                }, {
+                    xtype: 'container',
+                    items: [
+                        {
+                            xtype: 'clearableComboBox',
+                            name: 'groupId',
+                            fieldLabel: Strings.groupParent,
+                            store: 'Groups',
+                            queryMode: 'local',
+                            displayField: 'name',
+                            valueField: 'id'
+                        },{
+                            xtype: 'datefield',
+                            name: 'membershipDate',
+                            reference: 'membershipDateField',
+                            fieldLabel: Strings.membershipDate,
+                            startDay: Traccar.Style.weekStartDay,
+                            format: Traccar.Style.dateFormat
+                        }
+                    ]
                 }
-            }, {
-                xtype: 'checkboxfield',
-                inputValue: true,
-                uncheckedValue: false,
-                name: 'disabled',
-                fieldLabel: Strings.sharedDisabled,
-                hidden: true,
-                reference: 'disabledField'
-            }]
+            ]
+        }, {
+            xtype: 'fieldset',
+            title: Strings.vehicleDetails,
+            layout: "column",
+            items: [
+                {
+                    xtype: 'container',
+                    width: '300px',
+                    items:[
+                        {
+                            xtype: 'unescapedTextField',
+                            name: 'countryOfManufacturing',
+                            fieldLabel: Strings.attributeCountryOfManufacturing
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'vehicleModel',
+                            fieldLabel: Strings.vehicleModel
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'vinNumber',
+                            fieldLabel: Strings.attributeVINNumber
+                        }, {
+                            xtype: 'combobox',
+                            name: 'category',
+                            fieldLabel: Strings.deviceCategory,
+                            store: 'DeviceImages',
+                            queryMode: 'local',
+                            displayField: 'name',
+                            valueField: 'key',
+                            editable: false,
+                            listConfig: {
+                                getInnerTpl: function () {
+                                    return '<table><tr valign="middle" ><td><div align="center" style="width:40px;height:40px;" >' +
+                                        '{[new XMLSerializer().serializeToString(Traccar.DeviceImages.getImageSvg(' +
+                                        'Traccar.Style.mapColorOnline, false, 0, values.key))]}</div></td>' +
+                                        '<td>{name}</td></tr></table>';
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    xtype: 'container',
+                    items:[
+                        {
+                            xtype: 'unescapedTextField',
+                            name: 'manufacturingYear',
+                            fieldLabel: Strings.attributeManufacturingYear
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'plateNumber',
+                            fieldLabel: Strings.devicePlateNumber
+                        }, {
+                            xtype: 'unescapedTextField',
+                            name: 'engineNumber',
+                            fieldLabel: Strings.attributeEngineNumber
+                        }
+                    ]
+                },
+            ]
         }]
     }
 });

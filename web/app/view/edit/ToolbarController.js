@@ -43,8 +43,17 @@ Ext.define('Traccar.view.edit.ToolbarController', {
         dialog.down('form').loadRecord(objectInstance);
         dialog.down('form').items.items.forEach(function(item){
             item.setReadOnly && item.setReadOnly(true);
-            item.items.items.forEach(function(item){
+            item.items && item.items.items.forEach(function(item){
                 item.setReadOnly && item.setReadOnly(true);
+                item.items && item.items.items.forEach(function(item){
+                    item.setReadOnly && item.setReadOnly(true);
+                    item.items && item.items.items.forEach(function(item){
+                        item.setReadOnly && item.setReadOnly(true);
+                        item.items && item.items.items.forEach(function(item){
+                            item.setReadOnly && item.setReadOnly(true);
+                        });
+                    });
+                });
             });
         });
         dialog.lookupReference('saveButton').setHidden(true);

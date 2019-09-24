@@ -141,6 +141,41 @@ Ext.define('Traccar.view.edit.Devices', {
             hidden: true,
             filter: 'string'
         }, {
+            text: Strings.attributeGender,
+            dataIndex: 'gender',
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.attributeCountryOfManufacturing,
+            dataIndex: 'countryOfManufacturing',
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.attributeManufacturingYear,
+            dataIndex: 'manufacturingYear',
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.attributeEngineNumber,
+            dataIndex: 'engineNumber',
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.attributeVINNumber,
+            dataIndex: 'vinNumber',
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.attributeSIMNumber,
+            dataIndex: 'simNumber',
+            hidden: true,
+            filter: 'string'
+        }, {
+            text: Strings.attributeSIMICCIDNumber,
+            dataIndex: 'simIccidNumber',
+            hidden: true,
+            filter: 'string'
+        }, {
             text: Strings.groupDialog,
             dataIndex: 'groupId',
             hidden: true,
