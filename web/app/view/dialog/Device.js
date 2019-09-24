@@ -57,12 +57,12 @@ Ext.define('Traccar.view.dialog.Device', {
                     items: [{
                             xtype: 'unescapedTextField',
                             name: 'simNumber',
-                            fieldLabel: Strings.attributeSIMNumber,
+                            fieldLabel: Strings.attributeSIMNumber
                         }, {
                             xtype: 'unescapedTextField',
                             name: 'simIccidNumber',
                             fieldLabel: Strings.attributeSIMICCIDNumber,
-                            labelWidth: 'auto',
+                            labelWidth: 'auto'
                         },{
                             xtype: 'checkboxfield',
                             inputValue: true,
@@ -91,12 +91,12 @@ Ext.define('Traccar.view.dialog.Device', {
                         }, {
                             xtype: 'unescapedTextField',
                             name: 'gender',
-                            fieldLabel: Strings.attributeGender,
+                            fieldLabel: Strings.attributeGender
                         }, {
                             xtype: 'unescapedTextField',
                             name: 'phone',
                             fieldLabel: Strings.sharedPhone
-                        },
+                        }
                     ]
                 }, {
                     xtype: 'container',
@@ -178,7 +178,7 @@ Ext.define('Traccar.view.dialog.Device', {
                             fieldLabel: Strings.attributeEngineNumber
                         }
                     ]
-                },
+                }
             ]
         }]
     }
