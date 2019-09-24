@@ -27,6 +27,18 @@ Ext.define('Traccar.store.ReportPeriods', {
         key: 'today',
         name: Strings.reportToday
     }, {
+        key: '1Hour',
+        name: Strings.report1Hour
+    }, {
+        key: '2Hour',
+        name: Strings.report2Hour
+    }, {
+        key: '6Hour',
+        name: Strings.report6Hour
+    }, {
+        key: '12Hour',
+        name: Strings.report12Hour
+    }, {
         key: 'yesterday',
         name: Strings.reportYesterday
     }, {
@@ -41,5 +53,11 @@ Ext.define('Traccar.store.ReportPeriods', {
     }, {
         key: 'previousMonth',
         name: Strings.reportPreviousMonth
+    }, {
+        key: 'yearToDate',
+        name: Strings.reportYearToDate
+    }, {
+        key: 'lastYear',
+        name: Strings.reportLastYear
     }]
 });
