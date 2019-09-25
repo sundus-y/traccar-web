@@ -66,7 +66,10 @@ var markers = {};
 var map = new ol.Map({
     layers: [
         new ol.layer.Tile({
-            source: new ol.source.OSM()
+            source: new ol.source.XYZ({
+                url: 'https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga',
+                attributions: 'Ethio GPS Tracking System'
+            })
         }),
         new ol.layer.Vector({
             source: source
@@ -78,6 +81,8 @@ var map = new ol.Map({
         zoom: 2
     })
 });
+
+map.addControl(new ol.control.ScaleLine());
 
 var ajax = function (method, url, callback) {
     var xhr = new XMLHttpRequest();
