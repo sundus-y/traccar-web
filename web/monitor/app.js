@@ -125,8 +125,10 @@ ajax('GET', url + '/api/server', function(server) {
                         var point = new ol.geom.Point(ol.proj.fromLonLat([position.longitude, position.latitude]));
                         if (!marker) {
                             var device = devices.find(function (device) { return device.id === position.deviceId });
+                            var deviceName = device.plateNumber;
+                            if(deviceName === '') deviceName = device.name;
                             marker = new ol.Feature(point);
-                            marker.setStyle(style(device.name));
+                            marker.setStyle(style(deviceName));
                             markers[position.deviceId] = marker;
                             source.addFeature(marker);
                         } else {
