@@ -169,6 +169,10 @@
     addStyleFile('https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v' + olVersion + '/css/ol.css');
     addScriptFile('https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v' + olVersion + '/build/ol.js');
 
+    // Add openlayer map switcher.
+    addStyleFile('https://unpkg.com/ol-layerswitcher@3.4.0/src/ol-layerswitcher.css');
+    addScriptFile('https://unpkg.com/ol-layerswitcher@3.4.0');
+
     if (debugMode) {
         addScriptFile('https://cdn.jsdelivr.net/npm/proj4@' + proj4jsVersion + '/dist/proj4-src.js');
     } else {

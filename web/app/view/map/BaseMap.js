@@ -29,7 +29,7 @@ Ext.define('Traccar.view.map.BaseMap', {
         return this.mapView;
     },
 
-    initMap: function () {
+    initMap: function (layer_url) {
         var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
 
         server = Traccar.app.getServer();
@@ -162,9 +162,30 @@ Ext.define('Traccar.view.map.BaseMap', {
             maxZoom: maxZoom
         });
 
+        let layers = [
+            new ol.layer.Tile({
+                title: 'Satellite View',
+                visible: false,
+                type: 'base',
+                source: new ol.source.XYZ({
+                    url: 'https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga',
+                    attributions: ''
+                })
+            }),
+            new ol.layer.Tile({
+                title: 'Road View',
+                type: 'base',
+                visible: true,
+                source: new ol.source.XYZ({
+                    url: 'https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga',
+                    attributions: ''
+                })
+            })
+        ];
+
         this.map = new ol.Map({
             target: this.body.dom.id,
-            layers: [layer],
+            layers: layers,
             view: this.mapView
         });
 
@@ -196,6 +217,10 @@ Ext.define('Traccar.view.map.BaseMap', {
                 this.map.addControl(new ol.control.ScaleLine());
                 break;
         }
+
+        this.map.addControl(new ol.control.LayerSwitcher({
+            tipLabel: 'Map Switcher'
+        }));
 
         target = this.map.getTarget();
         if (typeof target === 'string') {
