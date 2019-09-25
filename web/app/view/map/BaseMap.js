@@ -162,7 +162,7 @@ Ext.define('Traccar.view.map.BaseMap', {
             maxZoom: maxZoom
         });
 
-        let layers = [
+        var layers = [
             new ol.layer.Tile({
                 title: 'Satellite View',
                 visible: false,
