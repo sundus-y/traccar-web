@@ -164,6 +164,15 @@ Ext.define('Traccar.view.map.BaseMap', {
 
         var layers = [
             new ol.layer.Tile({
+                title: 'Satellite + Road View',
+                type: 'base',
+                visible: false,
+                source: new ol.source.XYZ({
+                    url: 'https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga',
+                    attributions: ''
+                })
+            }),
+            new ol.layer.Tile({
                 title: 'Satellite View',
                 visible: false,
                 type: 'base',
