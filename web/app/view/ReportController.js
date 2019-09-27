@@ -572,8 +572,10 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.sharedType,
         dataIndex: 'type',
-        renderer: function (value) {
-            return Traccar.app.getEventString(value);
+        renderer: function (value, item) {
+            var details = item.record.data.text;
+            var type = Traccar.app.getEventString(value);
+            return type === details ? type : type + " - " + details;
         }
     }, {
         text: Strings.sharedGeofence,
