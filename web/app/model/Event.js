@@ -57,6 +57,11 @@ Ext.define('Traccar.model.Event', {
             } else if (rec.get('type') === 'driverChanged') {
                 text = Strings.eventDriverChanged + ': ' +
                     Traccar.AttributeFormatter.driverUniqueIdFormatter(rec.get('attributes')['driverUniqueId']);
+            } else if (rec.get('type') === 'deviceOverspeed') {
+                var speed = Traccar.AttributeFormatter.speedFormatter(Traccar.AttributeFormatter.speedConverter(rec.get('attributes')['speed']));
+                var limit = Traccar.AttributeFormatter.speedFormatter(Traccar.AttributeFormatter.speedConverter(rec.get('attributes')['speedLimit']));
+                text = Strings.positionSpeed + ': ' + speed;
+                text += " (" + Strings.attributeSpeedLimit + ": " + limit + ")";
             } else {
                 text = Traccar.app.getEventString(rec.get('type'));
             }

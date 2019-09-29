@@ -580,10 +580,12 @@ Ext.define('Traccar.view.ReportController', {
     }, {
         text: Strings.sharedGeofence,
         dataIndex: 'geofenceId',
+        hidden: true,
         renderer: Traccar.AttributeFormatter.getFormatter('geofenceId')
     }, {
         text: Strings.sharedMaintenance,
         dataIndex: 'maintenanceId',
+        hidden: true,
         renderer: Traccar.AttributeFormatter.getFormatter('maintenanceId')
     }],
 
