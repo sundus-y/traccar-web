@@ -58,6 +58,11 @@ Ext.define('Traccar.view.map.MapController', {
         Traccar.app.showEvents(true);
     },
 
+    openMapOnlyView: function() {
+        var win = window.open('http://monitor.ethiogps.com/monitor', '_blank');
+        win.focus();
+    },
+
     onFollowClick: function (button, pressed) {
         if (pressed && this.selectedMarker) {
             this.getView().getMapView().setCenter(this.selectedMarker.getGeometry().getCoordinates());

@@ -63,18 +63,42 @@ var source = new ol.source.Vector();
 
 var markers = {};
 
-var map = new ol.Map({
-    layers: [
-        new ol.layer.Tile({
-            source: new ol.source.XYZ({
-                url: 'https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga',
-                attributions: 'Ethio GPS Tracking System'
-            })
-        }),
-        new ol.layer.Vector({
-            source: source
+var layers = [
+    new ol.layer.Tile({
+        title: 'Satellite + Road View',
+        type: 'base',
+        visible: false,
+        source: new ol.source.XYZ({
+            url: 'https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga',
+            attributions: 'Ethio GPS Tracking System'
         })
-    ],
+    }),
+    new ol.layer.Tile({
+        title: 'Satellite View',
+        visible: false,
+        type: 'base',
+        source: new ol.source.XYZ({
+            url: 'https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga',
+            attributions: 'Ethio GPS Tracking System'
+        })
+    }),
+    new ol.layer.Tile({
+        title: 'Road View',
+        type: 'base',
+        visible: true,
+        source: new ol.source.XYZ({
+            url: 'https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga',
+            attributions: 'Ethio GPS Tracking System'
+        })
+    }),
+    new ol.layer.Vector({
+        source: source,
+        visible: true,
+    })
+];
+
+var map = new ol.Map({
+    layers: layers,
     target: 'map',
     view: new ol.View({
         center: ol.proj.fromLonLat([0, 0]),
@@ -83,6 +107,9 @@ var map = new ol.Map({
 });
 
 map.addControl(new ol.control.ScaleLine());
+map.addControl(new ol.control.LayerSwitcher({
+    tipLabel: 'Map Switcher'
+}));
 
 var ajax = function (method, url, callback) {
     var xhr = new XMLHttpRequest();
