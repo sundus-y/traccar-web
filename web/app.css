@@ -24,6 +24,10 @@ body.x-border-layout-ct, div.x-border-layout-ct {
     overflow: visible !important; /* workaround for Safari issue */
 }
 
+.x-grid-cell-inner {
+    padding: 3px !important;
+}
+
 #attribution {
     position: absolute;
     bottom: 10px;
