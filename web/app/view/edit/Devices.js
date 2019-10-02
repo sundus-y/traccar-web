@@ -161,8 +161,8 @@ Ext.define('Traccar.view.edit.Devices', {
             hidden: true,
             filter: 'string'
         }, {
-            text: Strings.attributeVINNumber,
-            dataIndex: 'vinNumber',
+            text: Strings.attributeChassisNumber,
+            dataIndex: 'chassisNumber',
             hidden: true,
             filter: 'string'
         }, {

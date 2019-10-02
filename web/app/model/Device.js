@@ -92,7 +92,7 @@ Ext.define('Traccar.model.Device', {
         type: 'string',
         allowNull: true
     }, {
-        name: 'vinNumber',
+        name: 'chassisNumber',
         type: 'string',
         allowNull: true
     }, {

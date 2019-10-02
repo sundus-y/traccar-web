@@ -139,8 +139,8 @@ Ext.define('Traccar.view.dialog.Device', {
                             fieldLabel: Strings.vehicleModel
                         }, {
                             xtype: 'unescapedTextField',
-                            name: 'vinNumber',
-                            fieldLabel: Strings.attributeVINNumber
+                            name: 'chassisNumber',
+                            fieldLabel: Strings.attributeChassisNumber
                         }, {
                             xtype: 'combobox',
                             name: 'category',

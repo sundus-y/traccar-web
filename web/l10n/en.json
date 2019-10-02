@@ -90,7 +90,7 @@
     "attributeCountryOfManufacturing":"Country of Manufacturing",
     "attributeManufacturingYear": "Manufacturing Year",
     "attributeEngineNumber":"Engine Number",
-    "attributeVINNumber": "VIN Number",
+    "attributeChassisNumber": "Chassis Number",
     "devicePlateNumber":"Plate Number",
     "membershipDate": "Membership Date",
     "vehicleModel": "Vehicle Model",

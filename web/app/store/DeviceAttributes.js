@@ -36,8 +36,8 @@ Ext.define('Traccar.store.DeviceAttributes', {
         name: Strings.attributeEngineNumber,
         valueType: 'string'
     }, {
-        key: 'web.vehicleVINNumber',
-        name: Strings.attributeVINNumber,
+        key: 'web.vehicleChassisNumber',
+        name: Strings.attributeChassisNumber,
         valueType: 'string'
     }, {
         key: 'web.vehicleOldPlateNumber',
