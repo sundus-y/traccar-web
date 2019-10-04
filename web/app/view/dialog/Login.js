@@ -66,7 +66,7 @@ Ext.define('Traccar.view.dialog.Login', {
             xtype: 'textfield',
             name: 'email',
             reference: 'userField',
-            fieldLabel: Strings.userEmail,
+            fieldLabel: Strings.userUserName,
             allowBlank: false,
             enableKeyEvents: true,
             listeners: {

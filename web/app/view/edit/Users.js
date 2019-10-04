@@ -120,7 +120,7 @@ Ext.define('Traccar.view.edit.Users', {
             dataIndex: 'name',
             filter: 'string'
         }, {
-            text: Strings.userEmail,
+            text: Strings.userUserName,
             dataIndex: 'email',
             filter: 'string'
         }, {

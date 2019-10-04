@@ -39,7 +39,7 @@ Ext.define('Traccar.view.dialog.User', {
             }, {
                 xtype: 'unescapedTextField',
                 name: 'email',
-                fieldLabel: Strings.userEmail,
+                fieldLabel: Strings.userUserName,
                 allowBlank: false
             }, {
                 xtype: 'textfield',

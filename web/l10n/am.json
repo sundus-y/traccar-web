@@ -126,6 +126,7 @@
   "errorSocket": "የድር ሶኬት ግንኙነት ስህተት",
   "errorZero": "ዜሮ መሆን አይቻልም",
   "userEmail": "ኢሜይል",
+  "userUserName": "የተጠቃሚ ስም",
   "userPassword": "ፕስወርድ",
   "userAdmin": "አስተዳዳሪ",
   "userRemember": "አስታውስ",
