@@ -31,7 +31,6 @@ Ext.define('Traccar.view.SettingsMenu', {
         controller: 'settings',
 
         items: [{
-            hidden: true,
             text: Strings.settingsUser,
             glyph: 'xf007@FontAwesome',
             handler: 'onUserClick',

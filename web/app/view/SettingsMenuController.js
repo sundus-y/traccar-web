@@ -51,7 +51,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
             this.lookupReference('settingsUsersButton').setHidden(false);
         }
         if (admin || !readonly) {
-            this.lookupReference('settingsUserButton').setHidden(false);
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
@@ -70,7 +69,6 @@ Ext.define('Traccar.view.SettingsMenuController', {
             selfEdit: true
         });
         dialog.down('form').loadRecord(Traccar.app.getUser());
-        dialog.lookupReference('testNotificationButton').setHidden(false);
         dialog.show();
     },
 

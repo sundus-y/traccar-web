@@ -53,6 +53,8 @@ Ext.define('Traccar.view.dialog.User', {
             title: Strings.sharedPreferences,
             collapsible: true,
             collapsed: true,
+            hidden: true,
+            reference: 'preferencesGroup',
             items: [{
                 xtype: 'unescapedTextField',
                 name: 'phone',
@@ -104,6 +106,8 @@ Ext.define('Traccar.view.dialog.User', {
             title: Strings.sharedPermissions,
             collapsible: true,
             collapsed: true,
+            hidden: true,
+            reference: 'permissionsGroup',
             items: [{
                 xtype: 'checkboxfield',
                 inputValue: true,
@@ -181,11 +185,15 @@ Ext.define('Traccar.view.dialog.User', {
 
     buttons: [{
         text: Strings.sharedAttributes,
-        handler: 'showAttributesView'
+        handler: 'showAttributesView',
+        reference: 'showAttributesButton',
+        hidden: true
     }, {
         glyph: 'xf041@FontAwesome',
         minWidth: 0,
         handler: 'getMapState',
+        reference: 'showMapStateButton',
+        hidden: true,
         tooltip: Strings.sharedGetMapState,
         tooltipType: 'title'
     }, {

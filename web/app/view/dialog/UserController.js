@@ -21,6 +21,11 @@ Ext.define('Traccar.view.dialog.UserController', {
 
     init: function () {
         if (Traccar.app.getUser().get('administrator')) {
+            this.lookupReference('preferencesGroup').setHidden(false);
+            this.lookupReference('permissionsGroup').setHidden(false);
+            this.lookupReference('showAttributesButton').setHidden(false);
+            this.lookupReference('testNotificationButton').setHidden(false);
+            this.lookupReference('showMapStateButton').setHidden(false);
             this.lookupReference('adminField').setDisabled(false);
             this.lookupReference('deviceLimitField').setDisabled(false);
             this.lookupReference('userLimitField').setDisabled(false);
