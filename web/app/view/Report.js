@@ -51,6 +51,7 @@ Ext.define('Traccar.view.Report', {
             }
         }, '-', {
             text: Strings.reportConfigure,
+            reference: 'reportConfigButton',
             handler: 'onConfigureClick'
         }, '-', {
             text: Strings.reportShow,

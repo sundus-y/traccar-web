@@ -389,6 +389,7 @@
     "notificatorMail": "Mail",
     "notificatorSms": "SMS",
     "notificatorFirebase": "Mobile",
+    "reportDevices": "Devices",
     "reportRoute": "Route",
     "reportEvents": "Events",
     "reportTrips": "Trips",

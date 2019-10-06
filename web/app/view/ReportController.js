@@ -144,8 +144,10 @@ Ext.define('Traccar.view.ReportController', {
         devices = this.deviceId && this.deviceId.length !== 0 || this.groupId && this.groupId.length !== 0;
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
         disabled = !reportType || !devices || !time || this.reportProgress;
-        this.lookupReference('showButton').setDisabled(disabled);
-        this.lookupReference('exportButton').setDisabled(reportType === 'chart' || disabled);
+
+        this.lookupReference('reportConfigButton').setDisabled(reportType === 'devices');
+        this.lookupReference('showButton').setDisabled(reportType !== 'devices' && disabled);
+        this.lookupReference('exportButton').setDisabled(reportType !== 'devices' && (reportType === 'chart' || disabled));
         this.lookupReference('emailButton').setDisabled(reportType === 'chart' || disabled);
         this.lookupReference('exportGPXButton').setDisabled(reportType !== 'route' || disabled);
     },
@@ -156,18 +158,20 @@ Ext.define('Traccar.view.ReportController', {
         this.getGrid().getSelectionModel().deselectAll();
 
         reportType = this.lookupReference('reportTypeField').getValue();
-        if (reportType && (this.deviceId || this.groupId)) {
-            from = new Date(
-                this.fromDate.getFullYear(), this.fromDate.getMonth(), this.fromDate.getDate(),
-                this.fromTime.getHours(), this.fromTime.getMinutes(), this.fromTime.getSeconds(), this.fromTime.getMilliseconds());
+        if (reportType && ((reportType === 'devices') || (this.deviceId || this.groupId))) {
+            if (reportType !== 'devices') {
+                from = new Date(
+                    this.fromDate.getFullYear(), this.fromDate.getMonth(), this.fromDate.getDate(),
+                    this.fromTime.getHours(), this.fromTime.getMinutes(), this.fromTime.getSeconds(), this.fromTime.getMilliseconds());
 
-            to = new Date(
-                this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
-                this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
-
+                to = new Date(
+                    this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
+                    this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
+            } else {
+                from = to = new Date();
+            }
             this.reportProgress = true;
             this.updateButtons();
-
             if (button.reference === 'showButton') {
                 if (reportType === 'chart') {
                     store = this.getChart().getStore();
@@ -490,6 +494,9 @@ Ext.define('Traccar.view.ReportController', {
             this.getView().getLayout().setActiveItem('grid');
         } else if (newValue === 'chart') {
             this.getView().getLayout().setActiveItem('chart');
+        } else if (newValue === 'devices') {
+            this.getGrid().reconfigure('ReportDevices', this.deviceColumns);
+            this.getView().getLayout().setActiveItem('grid');
         }
 
         this.updateButtons();
@@ -517,6 +524,75 @@ Ext.define('Traccar.view.ReportController', {
             });
         }
     },
+
+    deviceColumns: [{
+        text: Strings.deviceContact,
+        dataIndex: 'contact'
+    }, {
+        text: Strings.sharedPhone,
+        dataIndex: 'phone'
+    }, {
+        text: Strings.attributeGender,
+        dataIndex: 'gender'
+    }, {
+        text: Strings.groupDialog,
+        dataIndex: 'groupId',
+        renderer: Traccar.AttributeFormatter.getFormatter('groupId')
+    }, {
+        text: Strings.membershipDate,
+        dataIndex: 'membershipDate',
+        renderer: Traccar.AttributeFormatter.getFormatter('membershipDate')
+    }, {
+        text: Strings.devicePlateNumber,
+        dataIndex: 'plateNumber'
+    }, {
+        text: Strings.vehicleModel,
+        dataIndex: 'vehicleModel'
+    }, {
+        text: Strings.attributeCountryOfManufacturing,
+        dataIndex: 'countryOfManufacturing'
+    }, {
+        text: Strings.attributeManufacturingYear,
+        dataIndex: 'manufacturingYear'
+    }, {
+        text: Strings.attributeEngineNumber,
+        dataIndex: 'engineNumber'
+    }, {
+        text: Strings.attributeChassisNumber,
+        dataIndex: 'chassisNumber'
+    }, {
+        text: Strings.attributeSIMNumber,
+        dataIndex: 'simNumber'
+    }, {
+        text: Strings.attributeSIMICCIDNumber,
+        dataIndex: 'simIccidNumber'
+    }, {
+        text: Strings.deviceIdentifier,
+        dataIndex: 'uniqueId'
+    }, {
+        text: Strings.reportDeviceName,
+        dataIndex: 'name'
+    }, {
+        text: Strings.deviceModel,
+        dataIndex: 'model'
+    }, {
+        text: Strings.deviceStatus,
+        dataIndex: 'status',
+        renderer: function (value) {
+            var status;
+            if (value) {
+                status = Ext.getStore('DeviceStatuses').getById(value);
+                if (status) {
+                    return status.get('name');
+                }
+            }
+            return null;
+        }
+    }, {
+        text: Strings.deviceLastUpdate,
+        dataIndex: 'lastUpdate',
+        renderer: Traccar.AttributeFormatter.defaultFormatter
+    }],
 
     routeColumns: [{
         text: Strings.reportDeviceName,
