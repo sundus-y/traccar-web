@@ -59,7 +59,12 @@ Ext.define('Traccar.view.map.MapController', {
     },
 
     openMapOnlyView: function() {
-        var win = window.open('http://monitor.ethiogps.com/monitor', '_blank');
+        var win = window.open('https://monitor.ethiogps.com/monitor', '_blank');
+        win.focus();
+    },
+
+    openPlaybackView: function() {
+        var win = window.open('https://monitor.ethiogps.com/playback', '_blank');
         win.focus();
     },
 

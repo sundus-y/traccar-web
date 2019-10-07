@@ -65,6 +65,12 @@ Ext.define('Traccar.view.map.Map', {
             enableToggle: false,
             tooltip: Strings.openMapOnlyView
         }, {
+            handler: 'openPlaybackView',
+            reference: 'openPlaybackView',
+            glyph: 'xf144@FontAwesome',
+            enableToggle: false,
+            tooltip: Strings.openPlaybackView
+        }, {
             handler: 'updateGeofences',
             reference: 'showGeofencesButton',
             // glyph: 'xf21d@FontAwesome',

@@ -273,6 +273,7 @@
     "mapShapePolyline": "Polyline",
     "mapLiveRoutes": "Live Routes",
     "openMapOnlyView": "Open Map Only View",
+    "openPlaybackView": "Open Playback View",
     "mapPoiLayer": "POI Layer",
     "stateTitle": "State",
     "stateName": "Attribute",

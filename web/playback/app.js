@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-if (!Array.prototype.find) {
-    Object.defineProperty(Array.prototype, "find", {
-        value: function (predicate) {
-            var value;
-            for (var i = 0; i < this.length; i++) {
-                value = this[i];
-                if (predicate.call(arguments[1], value, i, this)) {
-                    return value;
-                }
-            }
-            return undefined;
-        }
-    });
-}
-
 var url = window.location.protocol + '//' + window.location.host;
 var token = (window.location.search.match(/token=([^&#]+)/) || [])[1];
-var params = getJsonFromUrl(window.location.search);
+var controller, marker, route;
+var duration = 1000;
+var zoom = 19;
+var playButton = document.getElementById('play');
+var pauseButton = document.getElementById('pause');
+var resumeButton = document.getElementById('resume');
+var stopButton = document.getElementById('stop');
 
 var style = function (label) {
     return new ol.style.Style({
@@ -67,14 +58,18 @@ var trackStyle = new ol.style.Style({
         lineCap: 'round'
     })
 });
+
 var trackFeature = new ol.Feature({
     geometry: new ol.geom.LineString([])
 });
+
+var source = new ol.source.Vector({
+    features: [trackFeature]
+});
+
 var trackLayer = new ol.layer.Vector({
-    source: new ol.source.Vector({
-        features: [trackFeature]
-    }),
-    style: trackStyle
+    source: source,
+    style: trackStyle,
 });
 
 var markers = {};
@@ -83,7 +78,7 @@ var layers = [
     new ol.layer.Tile({
         title: 'Satellite + Road View',
         type: 'base',
-        visible: true,
+        visible: false,
         source: new ol.source.XYZ({
             url: 'https://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga',
             attributions: 'Ethio GPS Tracking System'
@@ -101,7 +96,7 @@ var layers = [
     new ol.layer.Tile({
         title: 'Road View',
         type: 'base',
-        visible: false,
+        visible: true,
         source: new ol.source.XYZ({
             url: 'https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga',
             attributions: 'Ethio GPS Tracking System'
@@ -110,7 +105,10 @@ var layers = [
     trackLayer
 ];
 
-var view = new ol.View({});
+var view = new ol.View({
+    center: ol.proj.fromLonLat([0.0, 0.0]),
+    zoom: 2
+});
 
 var map = new ol.Map({
     layers: layers,
@@ -123,46 +121,157 @@ map.addControl(new ol.control.LayerSwitcher({
     tipLabel: 'Map Switcher'
 }));
 
-ajax('GET', url + '/api/server', function (server) {
-    ajax('GET', url + '/api/session?token=' + token, function (user) {
-        view.setCenter(ol.proj.fromLonLat([
-            user.longitude || server.longitude || 0.0,
-            user.latitude || server.latitude || 0.0
-        ]));
-        view.setZoom(user.zoom || server.zoom || 2);
-        var routeURL = url + '/api/reports/route' + window.location.search;
-        ajax('GET', url + '/api/devices', function (devices) {
-            ajax('GET', routeURL, function (positions) {
-                var device = devices.find(function (device) {
-                    return device.id === positions[0].deviceId
-                });
-                var deviceName = device.plateNumber;
-                if (deviceName === '') deviceName = device.name;
-                // var psList = positions.map(function (position) {
-                //     return position.longitude + ',' + position.latitude;
-                // }).join(';');
-                // var drivingURL = 'http://router.project-osrm.org/route/v1/driving/' + psList + '?overview=false';
-                // ajax('GET', drivingURL, function (path) {
-                //     console.log(path);
-                // });
-                for (var i = 0; i < positions.length - 1; i++) {
-                    (function (i) {
-                        window.setTimeout(function () {
-                            var point = ol.proj.fromLonLat([positions[i].longitude, positions[i].latitude]);
-                            var next = ol.proj.fromLonLat([positions[i+1].longitude, positions[i+1].latitude]);
-                            trackFeature.getGeometry().appendCoordinate(next);
-                            if (i % 2 == 0) {
-                                view.animate({
-                                    center: point,
-                                    zoom: 17,
-                                    duration: 800
-                                });
-                            }
-                        }, i * 800);
+init();
 
-                    }(i));
+function init() {
+    document.getElementById('from').value = new moment().startOf('day').format('YYYY-MM-DDThh:mm');
+    document.getElementById('to').value = new moment().endOf('day').format('YYYY-MM-DDThh:mm');
+
+    ajax('GET', url + '/api/server', function (server) {
+        ajax('GET', url + '/api/session?token=' + token, function (user) {
+            if(user === 404) {
+                window.location.replace(url);
+            }
+            view.setCenter(ol.proj.fromLonLat([
+                user.longitude || server.longitude || 0.0,
+                user.latitude || server.latitude || 0.0
+            ]));
+            view.setZoom(user.zoom || server.zoom || 2);
+            ajax('GET', '/api/devices', function (devices) {
+                var sel = document.getElementById('devices');
+                for (var i = 0; i < devices.length; i++) {
+                    var opt = document.createElement('option');
+                    opt.appendChild(document.createTextNode(devices[i].name + ' - ' + devices[i].plateNumber + ' - ' + devices[i].phone));
+                    opt.value = devices[i].id;
+                    sel.appendChild(opt);
                 }
             });
         });
     });
-});
+}
+
+function play() {
+    stop();
+    var deviceId = document.getElementById('devices').value;
+    var mFromDate = moment(document.getElementById('from').value);
+    var mToDate = moment(document.getElementById('to').value);
+    var fromDate = mFromDate.format("YYYY-MM-DDThh:mm:ss.000[Z]");
+    var toDate = mToDate.format("YYYY-MM-DDThh:mm:ss.000[Z]");
+    playButton.disabled = resumeButton.disabled = true;
+    pauseButton.disabled = stopButton.disabled = false;
+    if (deviceId === "Select A Device") {
+        alert("Please Select A Device First");
+        playButton.disabled = false;
+        pauseButton.disabled = resumeButton.disabled = stopButton.disabled = true;
+    } else {
+        var routeURL = url + '/api/reports/route?deviceId=' + deviceId + '&from=' + encodeURIComponent(fromDate) + '&to=' + encodeURIComponent(toDate);
+        ajax('GET', url + '/api/devices', function (devices) {
+            ajax('GET', routeURL, function (positions) {
+                route = positions;
+                if (route.length === 0) {
+                    alert("No Route Found witht the given time range.\n " +
+                        mFromDate.format("dddd, MMMM Do YYYY, h:mm:ss a") + ' - ' +
+                        mToDate.format("dddd, MMMM Do YYYY, h:mm:ss a"));
+                    playButton.disabled = false;
+                    pauseButton.disabled = resumeButton.disabled = stopButton.disabled = true;
+                } else {
+                    var device = devices.find(function (device) {
+                        return device.id === route[0].deviceId
+                    });
+                    var deviceName = device.plateNumber;
+                    if (deviceName === '') deviceName = device.name;
+
+                    var pointGeom = new ol.geom.Point(ol.proj.fromLonLat([route[0].longitude, route[0].latitude]));
+                    marker = new ol.Feature(pointGeom);
+                    marker.setStyle(style(deviceName));
+                    source.addFeature(marker);
+                    view.setCenter(pointGeom.getCoordinates());
+                    animateMarker(marker, pointGeom, trackFeature);
+                    view.animate({
+                        center: pointGeom.getCoordinates(),
+                        zoom: zoom,
+                        duration: 900
+                    });
+                    controller = setInterval(playback(route), 90);
+                }
+            });
+        });
+    }
+}
+
+function pause() {
+    if (controller) {
+        clearTimeout(controller);
+        pauseButton.disabled = playButton.disabled = true;
+        resumeButton.disabled = stopButton.disabled = false;
+    }
+}
+
+function resume() {
+    controller = setInterval(playback(route), 90);
+    pauseButton.disabled = stopButton.disabled = false;
+    playButton.disabled = resumeButton.disabled = true;
+}
+
+function stop() {
+    if (controller) {
+        clearTimeout(controller);
+        if (trackFeature) {
+            source.removeFeature(trackFeature);
+            trackFeature = new ol.Feature({
+                geometry: new ol.geom.LineString([])
+            });
+            source.addFeature(trackFeature);
+        }
+        if (marker) {
+            source.removeFeature(marker);
+            marker = null;
+        }
+        playButton.disabled = false;
+        pauseButton.disabled = resumeButton.disabled = stopButton.disabled = true;
+    }
+}
+
+function updatePlaybackSpeed() {
+    duration = parseInt(document.getElementById('speed').value);
+    if (duration === 20) {
+        zoom = 14;
+    }
+    else if (duration === 50) {
+        zoom = 15;
+    }
+    else if (duration === 100) {
+        zoom = 16;
+    } else if (duration === 250) {
+        zoom = 17;
+    } else {
+        zoom = 19;
+    }
+}
+
+function playback(positions) {
+    return function () {
+        if (!marker.get('animating') && positions.length > 0) {
+            var position = positions.shift();
+            var point = ol.proj.fromLonLat([position.longitude, position.latitude]);
+            var pointGeom = new ol.geom.Point(point);
+            var extent = map.getView().calculateExtent(map.getSize());
+            var top = ol.extent.getTopRight(extent)[1] - 20;
+            var right = ol.extent.getTopRight(extent)[0] - 20;
+            var bottom = ol.extent.getBottomLeft(extent)[1] + 20;
+            var left = ol.extent.getTopLeft(extent)[0] + 20;
+            if (point[1] > top || point[0] > right || point[1] < bottom || point[0] < left) {
+                view.animate({
+                    center: pointGeom.getCoordinates(),
+                    zoom: zoom,
+                    duration: 1000
+                });
+            }
+            animateMarker(marker, pointGeom, trackFeature);
+        } else if (positions.length === 0) {
+            clearTimeout(controller);
+            playButton.disabled = false;
+            pauseButton.disabled = resumeButton.disabled = stopButton.disabled = true;
+        }
+    };
+}
