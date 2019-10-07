@@ -28,6 +28,13 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
     title: Strings.reportConfigure,
 
     items: [{
+        fieldLabel: Strings.reportAllDevices,
+        xtype: 'checkbox',
+        reference: 'allDevicesField',
+        inputValue: true,
+        uncheckedValue: false,
+        value: false
+    }, {
         fieldLabel: Strings.reportDevice,
         xtype: 'tagfield',
         reference: 'deviceField',

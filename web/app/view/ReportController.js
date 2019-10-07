@@ -107,8 +107,15 @@ Ext.define('Traccar.view.ReportController', {
         dialog.lookupReference('eventTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'events');
         dialog.lookupReference('chartTypeField').setHidden(this.lookupReference('reportTypeField').getValue() !== 'chart');
         dialog.callingPanel = this;
-        dialog.lookupReference('deviceField').setValue(this.deviceId);
-        dialog.lookupReference('groupField').setValue(this.groupId);
+
+        if (this.allDevices ) {
+            dialog.lookupReference('allDevicesField').setValue(this.allDevices);
+
+        } else {
+            dialog.lookupReference('deviceField').setValue(this.deviceId);
+            dialog.lookupReference('groupField').setValue(this.groupId);
+        }
+
         if (this.eventType !== undefined) {
             dialog.lookupReference('eventTypeField').setValue(this.eventType);
         } else {
