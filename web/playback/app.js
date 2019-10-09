@@ -16,13 +16,51 @@
 
 var url = window.location.protocol + '//' + window.location.host;
 var token = (window.location.search.match(/token=([^&#]+)/) || [])[1];
-var controller, marker, route;
+var controller, marker, route, speedChart;
 var duration = 1000;
 var zoom = 19;
 var playButton = document.getElementById('play');
 var pauseButton = document.getElementById('pause');
 var resumeButton = document.getElementById('resume');
 var stopButton = document.getElementById('stop');
+var dateTimeFormat = 'MM/DD/YYYY HH:mm::ss';
+var speedChartConfig = {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: []
+    },
+    options: {
+        title: {
+            display: true,
+            text: 'Speed Chart',
+            position: 'left'
+        },
+        scales: {
+            xAxes: [{
+                type: 'time',
+                time: {
+                    parser: dateTimeFormat,
+                    tooltipFormat: dateTimeFormat
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Date/Time'
+                }
+            }],
+            yAxes: [{
+                scaleLabel: {
+                    display: true,
+                    labelString: 'Km/h'
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 40
+                }
+            }]
+        },
+    }
+};
 
 var style = function (label) {
     return new ol.style.Style({
@@ -121,12 +159,16 @@ map.addControl(new ol.control.LayerSwitcher({
     tipLabel: 'Map Switcher'
 }));
 
+height = (window.innerHeight)/3;
+map.setSize([1640, height*2]);
+
 init();
 
 function init() {
     document.getElementById('from').value = new moment().startOf('day').format('YYYY-MM-DDThh:mm');
     document.getElementById('to').value = new moment().endOf('day').format('YYYY-MM-DDThh:mm');
-
+    var ctx = document.getElementById('speedChart').getContext('2d');
+    speedChart = new Chart(ctx, speedChartConfig);
     ajax('GET', url + '/api/server', function (server) {
         ajax('GET', url + '/api/session?token=' + token, function (user) {
             if(user === 404) {
@@ -186,6 +228,8 @@ function play() {
                     marker.setStyle(style(deviceName));
                     source.addFeature(marker);
                     view.setCenter(pointGeom.getCoordinates());
+                    addNewDataSet(deviceName, positions);
+                    addData(positions[0]);
                     animateMarker(marker, pointGeom, trackFeature);
                     view.animate({
                         center: pointGeom.getCoordinates(),
@@ -196,6 +240,29 @@ function play() {
                 }
             });
         });
+    }
+}
+
+function addNewDataSet(deviceName) {
+    var newDataset = {
+        label: deviceName,
+        borderColor: 'rgba(255, 99, 132, 0.2)',
+        backgroundColor: 'rgba(255, 99, 132, 1)',
+        fill: false,
+        spanGaps: false,
+        data: []
+    };
+    speedChartConfig.data.datasets = [newDataset];
+    speedChart.update();
+}
+
+function addData(position) {
+    if (speedChartConfig.data.datasets.length === 1) {
+        speedChartConfig.data.datasets[0].data.push({
+            x: moment(position.serverTime).format(dateTimeFormat),
+            y: position.speed
+        });
+        speedChart.update();
     }
 }
 
@@ -267,6 +334,7 @@ function playback(positions) {
                     duration: 1000
                 });
             }
+            addData(position);
             animateMarker(marker, pointGeom, trackFeature);
         } else if (positions.length === 0) {
             clearTimeout(controller);
