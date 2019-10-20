@@ -97,6 +97,13 @@ Ext.define('Traccar.view.edit.DevicesController', {
         dialog.show();
     },
 
+    onRemoveClick: function () {
+        var objectInstance = this.getView().getSelectionModel().getSelection()[0];
+        var dialog = Ext.create('Traccar.view.dialog.DeviceDeleteConfirm');
+        dialog.objectInstance = objectInstance;
+        dialog.show();
+    },
+
     updateButtons: function (selected) {
         var readonly, deviceReadonly, empty, deviceMenu;
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('administrator');
