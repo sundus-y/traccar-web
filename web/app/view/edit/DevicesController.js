@@ -48,7 +48,8 @@ Ext.define('Traccar.view.edit.DevicesController', {
             },
             store: {
                 '#Devices': {
-                    update: 'onUpdateDevice'
+                    update: 'onUpdateDevice',
+                    datachanged: 'onDataChange'
                 }
             }
         }
@@ -57,6 +58,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
     objectModel: 'Traccar.model.Device',
     objectDialog: 'Traccar.view.dialog.Device',
     removeTitle: Strings.sharedDevice,
+    sundus: '(Online: 311, Offline: 200, Total: 400)',
 
     init: function () {
         var self = this, readonly, deviceReadonly;
@@ -139,6 +141,13 @@ Ext.define('Traccar.view.edit.DevicesController', {
 
     onUpdateDevice: function () {
         this.updateButtons(this.getView().getSelectionModel().getSelected().items);
+    },
+
+    onDataChange: function() {
+        var total = this.getView().getStore().data.length;
+        var offline = this.getView().getStore().data.items.filter(function(d){return d.data.status === 'offline';}).length;
+        var online = this.getView().getStore().data.items.filter(function(d){return d.data.status === 'online';}).length;
+        this.lookupReference('deviceToolBarTitle').setHtml("Devices (Online:" + online + " Offline:" + offline + " Total:" + total + ")");
     },
 
     deselectFeature: function () {

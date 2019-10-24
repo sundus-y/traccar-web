@@ -42,6 +42,7 @@ Ext.define('Traccar.view.edit.Devices', {
         },
         items: [{
             xtype: 'tbtext',
+            reference: 'deviceToolBarTitle',
             html: Strings.deviceTitle,
             baseCls: 'x-panel-header-title-default'
         }, {
