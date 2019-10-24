@@ -141,6 +141,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
 
     onUpdateDevice: function () {
         this.updateButtons(this.getView().getSelectionModel().getSelected().items);
+        this.onDataChange();
     },
 
     onDataChange: function() {
