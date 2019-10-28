@@ -22,6 +22,8 @@ Ext.define('Traccar.store.ReportDevices', {
     proxy: {
         type: 'rest',
         url: 'api/reports/devices',
+        groupReportUrl: 'api/reports/group_devices',
+        individualReportUrl: 'api/reports/individual_devices',
         timeout: Traccar.Style.reportTimeout,
         headers: {
             'Accept': 'application/json'

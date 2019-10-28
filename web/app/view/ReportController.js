@@ -72,8 +72,10 @@ Ext.define('Traccar.view.ReportController', {
     },
 
     init: function () {
-        var i, data, attribute;
+        var i, data, attribute, admin;
         data = Ext.getStore('PositionAttributes').getData().items;
+        admin = Traccar.app.getUser().get('administrator');
+        this.lookupReference('govReports').setHidden(!admin);
         for (i = 0; i < data.length; i++) {
             attribute = data[i];
             this.routeColumns.push({
@@ -152,31 +154,28 @@ Ext.define('Traccar.view.ReportController', {
         time = this.fromDate && this.fromTime && this.toDate && this.toTime;
         disabled = !reportType || !devices || !time || this.reportProgress;
 
-        this.lookupReference('reportConfigButton').setDisabled(reportType === 'devices');
         this.lookupReference('showButton').setDisabled(reportType !== 'devices' && disabled);
         this.lookupReference('exportButton').setDisabled(reportType !== 'devices' && (reportType === 'chart' || disabled));
         this.lookupReference('emailButton').setDisabled(reportType === 'chart' || disabled);
         this.lookupReference('exportGPXButton').setDisabled(reportType !== 'route' || disabled);
+        this.lookupReference('govReports').setDisabled(reportType !== 'devices' || (reportType === 'devices' && disabled));
     },
 
     onReportClick: function (button) {
-        var reportType, from, to, store, url;
+        var reportType, from, to, store, url, mail;
 
         this.getGrid().getSelectionModel().deselectAll();
 
         reportType = this.lookupReference('reportTypeField').getValue();
-        if (reportType && ((reportType === 'devices') || (this.deviceId || this.groupId))) {
-            if (reportType !== 'devices') {
-                from = new Date(
-                    this.fromDate.getFullYear(), this.fromDate.getMonth(), this.fromDate.getDate(),
-                    this.fromTime.getHours(), this.fromTime.getMinutes(), this.fromTime.getSeconds(), this.fromTime.getMilliseconds());
+        if (reportType && (this.deviceId || this.groupId)) {
+            from = new Date(
+                this.fromDate.getFullYear(), this.fromDate.getMonth(), this.fromDate.getDate(),
+                this.fromTime.getHours(), this.fromTime.getMinutes(), this.fromTime.getSeconds(), this.fromTime.getMilliseconds());
 
-                to = new Date(
-                    this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
-                    this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
-            } else {
-                from = to = new Date();
-            }
+            to = new Date(
+                this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
+                this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
+            from = to = new Date();
             this.reportProgress = true;
             this.updateButtons();
             if (button.reference === 'showButton') {
@@ -211,14 +210,23 @@ Ext.define('Traccar.view.ReportController', {
                     to: Ext.Date.format(to, 'c')
                 });
             } else {
-                url = this.getGrid().getStore().getProxy().url;
+                if(button.reference === 'exportIndividual' || button.reference === 'emailIndividual') {
+                    url = this.getGrid().getStore().getProxy().individualReportUrl;
+                    mail = button.reference.indexOf('email') !== -1;
+                } else if(button.reference === 'exportGroup' || button.reference === 'emailGroup') {
+                    url = this.getGrid().getStore().getProxy().groupReportUrl;
+                    mail = button.reference.indexOf('email') !== -1;
+                } else {
+                    url = this.getGrid().getStore().getProxy().url;
+                    mail = button.reference === 'emailButton'
+                }
                 this.excelReport(url, {
                     deviceId: this.deviceId,
                     groupId: this.groupId,
                     type: this.eventType,
                     from: Ext.Date.format(from, 'c'),
                     to: Ext.Date.format(to, 'c'),
-                    mail: button.reference === 'emailButton'
+                    mail: mail
                 });
             }
         }
@@ -430,6 +438,10 @@ Ext.define('Traccar.view.ReportController', {
                             url.revokeObjectURL(downloadUrl);
                         }, 100);
                     }
+                } else if(success && requestParams.mail) {
+                    Traccar.app.showToast('Email has been queued.', 'Email Queued');
+                } else if(!success) {
+                    Traccar.app.showError(response);
                 }
                 this.reportProgress = false;
                 this.updateButtons();

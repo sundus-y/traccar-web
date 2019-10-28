@@ -68,7 +68,39 @@ Ext.define('Traccar.view.Report', {
             reference: 'emailButton',
             disabled: true,
             handler: 'onReportClick'
-        }, {
+        }, new Ext.SplitButton({
+            text: Strings.govReports,
+            reference: 'govReports',
+            disabled: true,
+            hidden: true,
+            menu: new Ext.menu.Menu(
+                {
+                    items: [
+                        {
+                            text: Strings.reportExportIndividual,
+                            glyph: 'xf1c3@FontAwesome',
+                            reference: 'exportIndividual',
+                            handler: 'onReportClick'
+                        }, {
+                            text: Strings.reportExportGroup,
+                            glyph: 'xf1c3@FontAwesome',
+                            reference: 'exportGroup',
+                            handler: 'onReportClick'
+                        }, {
+                            text: Strings.reportEmailIndividual,
+                            glyph: 'xf003@FontAwesome',
+                            reference: 'emailIndividual',
+                            handler: 'onReportClick'
+                        }, {
+                            text: Strings.reportEmailGroup,
+                            glyph: 'xf003@FontAwesome',
+                            reference: 'emailGroup',
+                            handler: 'onReportClick'
+                        }
+                    ]
+                }
+            )
+        }), {
             text: 'Export GPX',
             reference: 'exportGPXButton',
             disabled: true,
