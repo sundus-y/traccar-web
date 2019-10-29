@@ -175,7 +175,6 @@ Ext.define('Traccar.view.ReportController', {
             to = new Date(
                 this.toDate.getFullYear(), this.toDate.getMonth(), this.toDate.getDate(),
                 this.toTime.getHours(), this.toTime.getMinutes(), this.toTime.getSeconds(), this.toTime.getMilliseconds());
-            from = to = new Date();
             this.reportProgress = true;
             this.updateButtons();
             if (button.reference === 'showButton') {
