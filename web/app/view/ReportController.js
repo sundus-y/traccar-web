@@ -219,14 +219,35 @@ Ext.define('Traccar.view.ReportController', {
                     url = this.getGrid().getStore().getProxy().url;
                     mail = button.reference === 'emailButton'
                 }
-                this.excelReport(url, {
-                    deviceId: this.deviceId,
-                    groupId: this.groupId,
-                    type: this.eventType,
-                    from: Ext.Date.format(from, 'c'),
-                    to: Ext.Date.format(to, 'c'),
-                    mail: mail
-                });
+                if (button.reference.indexOf('email') !== -1) {
+                    var dialog = Ext.create('Traccar.view.dialog.SendGovEmailConfirm');
+                    dialog.verifyed = false;
+                    dialog.addListener('hide', function(dialog){
+                        if (dialog.verifyed) {
+                            this.excelReport(url, {
+                                deviceId: this.deviceId,
+                                groupId: this.groupId,
+                                type: this.eventType,
+                                from: Ext.Date.format(from, 'c'),
+                                to: Ext.Date.format(to, 'c'),
+                                mail: mail
+                            });
+                        } else {
+                            this.reportProgress = false;
+                            this.updateButtons();
+                        }
+                    }, this);
+                    dialog.show();
+                } else {
+                    this.excelReport(url, {
+                        deviceId: this.deviceId,
+                        groupId: this.groupId,
+                        type: this.eventType,
+                        from: Ext.Date.format(from, 'c'),
+                        to: Ext.Date.format(to, 'c'),
+                        mail: mail
+                    });
+                }
             }
         }
     },
