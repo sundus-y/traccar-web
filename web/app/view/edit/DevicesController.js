@@ -113,6 +113,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         empty = selected.length === 0;
         this.lookupReference('toolbarEditButton').setDisabled(empty || readonly || deviceReadonly);
         this.lookupReference('toolbarViewButton').setDisabled(empty);
+        this.lookupReference('toolbarViewSMSButton').setDisabled(empty);
         this.lookupReference('toolbarRemoveButton').setDisabled(empty || readonly || deviceReadonly);
         deviceMenu = this.lookupReference('toolbarDeviceMenu');
         deviceMenu.device = empty ? null : selected[0];
