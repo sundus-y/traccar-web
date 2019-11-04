@@ -393,6 +393,7 @@
   "notificatorWeb": "ድር",
   "notificatorMail": "በፖስታ",
   "notificatorSms": "ኤስኤምኤስ",
+  "notificatorSmsApp": "ኤስኤምኤስ አፕ",
   "notificatorFirebase": "ሞባይል",
   "reportDevices": "መሣሪያዎች",
   "reportRoute": "መንገድ",

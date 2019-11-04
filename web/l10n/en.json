@@ -393,6 +393,7 @@
     "notificatorWeb": "Web",
     "notificatorMail": "Mail",
     "notificatorSms": "SMS",
+    "notificatorSmsApp": "SMS App",
     "notificatorFirebase": "Mobile",
     "reportDevices": "Devices",
     "reportRoute": "Route",
