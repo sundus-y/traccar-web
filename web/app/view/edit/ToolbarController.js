@@ -62,7 +62,7 @@ Ext.define('Traccar.view.edit.ToolbarController', {
     },
 
     onViewSMSClick: function () {
-        alert('Loading Sent SMS Messages');
+        alert('This is functionality is in progress.');
     },
 
     onRemoveClick: function () {
