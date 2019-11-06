@@ -230,6 +230,10 @@ Ext.define('Traccar.AttributeFormatter', {
                 return function(value) {
                     return Ext.Date.format(value, Traccar.Style.dateFormat);
                 };
+            case 'timestamp':
+                return function(value) {
+                    return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
+                };
             default:
                 return this.defaultFormatter;
         }
@@ -307,5 +311,74 @@ Ext.define('Traccar.AttributeFormatter', {
         } else {
             return value;
         }
+    },
+
+    periodToDateRange: function (period) {
+        var day, first;
+        var from = new Date(), to = new Date();
+        switch (period) {
+            case 'today':
+                to.setDate(to.getDate() + 1);
+                break;
+            case 'yesterday':
+                from.setDate(to.getDate() - 1);
+                break;
+            case '1Hour':
+                from.setHours(to.getHours() - 1);
+                break;
+            case '2Hour':
+                from.setHours(to.getHours() - 2);
+                break;
+            case '6Hour':
+                from.setHours(to.getHours() - 6);
+                break;
+            case '12Hour':
+                from.setHours(to.getHours() - 12);
+                break;
+            case 'thisWeek':
+                day = from.getDay();
+                first = from.getDate() - day + (day === 0 ? -6 : 1);
+                from.setDate(first);
+                to.setDate(first + 7);
+                break;
+            case 'previousWeek':
+                day = from.getDay();
+                first = from.getDate() - day + (day === 0 ? -6 : 1);
+                from.setDate(first - 7);
+                to.setDate(first);
+                break;
+            case 'thisMonth':
+                from.setDate(1);
+                to.setDate(1);
+                to.setMonth(from.getMonth() + 1);
+                break;
+            case 'previousMonth':
+                from.setDate(1);
+                from.setMonth(from.getMonth() - 1);
+                to.setDate(1);
+                break;
+            case 'yearToDate':
+                from.setMonth(0);
+                from.setDate(1);
+                break;
+            case 'lastYear':
+                from.setFullYear(from.getFullYear() - 1);
+                from.setMonth(0);
+                from.setDate(1);
+                to.setFullYear(from.getFullYear());
+                to.setMonth(from.getMonth() + 12);
+                to.setDate(0);
+                break;
+            default:
+                break;
+        }
+        if (!['1Hour','2Hour','6Hour','12Hour'].includes(period)){
+            from.setHours(0, 0, 0, 0);
+            to.setHours(0, 0, 0, 0);
+        } else {
+            from.setHours(0, 0, 0, 0);
+            to.setHours(23, 59, 59, 999);
+        }
+        return {from: from, to: to};
     }
 });

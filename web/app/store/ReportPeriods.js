@@ -21,9 +21,6 @@ Ext.define('Traccar.store.ReportPeriods', {
     fields: ['key', 'name'],
 
     data: [{
-        key: 'custom',
-        name: Strings.reportCustom
-    }, {
         key: 'today',
         name: Strings.reportToday
     }, {
@@ -59,5 +56,8 @@ Ext.define('Traccar.store.ReportPeriods', {
     }, {
         key: 'lastYear',
         name: Strings.reportLastYear
+    }, {
+        key: 'custom',
+        name: Strings.reportCustom
     }]
 });

@@ -27,6 +27,7 @@ Ext.define('Traccar.view.edit.DevicesController', {
         'Traccar.view.permissions.Drivers',
         'Traccar.view.permissions.SavedCommands',
         'Traccar.view.BaseWindow',
+        'Traccar.view.SMSNotifications',
         'Traccar.model.Device',
         'Traccar.model.Command'
     ],
@@ -103,6 +104,20 @@ Ext.define('Traccar.view.edit.DevicesController', {
         var objectInstance = this.getView().getSelectionModel().getSelection()[0];
         var dialog = Ext.create('Traccar.view.dialog.DeviceDeleteConfirm');
         dialog.objectInstance = objectInstance;
+        dialog.show();
+    },
+
+    onViewSMSClick: function () {
+        var device, deviceId, dialog;
+        device = this.getView().getSelectionModel().getSelection()[0];
+        deviceId = device.get('id');
+        dialog = Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.smsNotifications,
+            items: {
+                xtype: 'smsNotificationsView'
+            }
+        });
+        dialog.deviceId = deviceId;
         dialog.show();
     },
 

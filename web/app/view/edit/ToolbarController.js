@@ -61,10 +61,6 @@ Ext.define('Traccar.view.edit.ToolbarController', {
         dialog.show();
     },
 
-    onViewSMSClick: function () {
-        alert('This is functionality is in progress.');
-    },
-
     onRemoveClick: function () {
         var objectInstance = this.getView().getSelectionModel().getSelection()[0];
         Ext.Msg.show({
