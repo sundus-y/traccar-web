@@ -21,7 +21,7 @@ Ext.define('Traccar.view.Main', {
 
     requires: [
         'Traccar.view.MainController',
-        'Traccar.view.edit.Devices',
+        'Traccar.view.edit.DevicesContainer',
         'Traccar.view.State',
         'Traccar.view.Report',
         'Traccar.view.Events',
@@ -55,7 +55,7 @@ Ext.define('Traccar.view.Main', {
 
         items: [{
             region: 'center',
-            xtype: 'devicesView'
+            xtype: 'devicesViewContainer'
         }, {
             region: 'south',
             xtype: 'stateView'
