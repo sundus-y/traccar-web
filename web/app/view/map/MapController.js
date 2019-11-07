@@ -20,7 +20,8 @@ Ext.define('Traccar.view.map.MapController', {
     alias: 'controller.map',
 
     requires: [
-        'Traccar.GeofenceConverter'
+        'Traccar.GeofenceConverter',
+        'Traccar.view.dialog.SendSMS'
     ],
 
     config: {
@@ -66,6 +67,12 @@ Ext.define('Traccar.view.map.MapController', {
     openPlaybackView: function() {
         var win = window.open('https://monitor.ethiogps.com/playback', '_blank');
         win.focus();
+    },
+
+    openSendSMS: function() {
+        var dialog = Ext.create('Traccar.view.dialog.SendSMS');
+        dialog.callingPanel = this;
+        dialog.show();
     },
 
     onFollowClick: function (button, pressed) {

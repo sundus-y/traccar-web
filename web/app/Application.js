@@ -113,7 +113,8 @@ Ext.define('Traccar.Application', {
         'MaintenanceTypes',
         'HoursUnits',
         'AllNotificators',
-        'SMSNotifications'
+        'SMSNotifications',
+        'SMSRecipientTypes'
     ],
 
     controllers: [

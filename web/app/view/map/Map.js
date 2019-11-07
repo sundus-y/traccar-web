@@ -71,6 +71,12 @@ Ext.define('Traccar.view.map.Map', {
             enableToggle: false,
             tooltip: Strings.openPlaybackView
         }, {
+            handler: 'openSendSMS',
+            reference: 'openSendSMSButton',
+            enableToggle: false,
+            tooltip: Strings.sendSMS,
+            text: Strings.sendSMS
+        }, {
             handler: 'updateGeofences',
             reference: 'showGeofencesButton',
             // glyph: 'xf21d@FontAwesome',
