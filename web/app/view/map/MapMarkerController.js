@@ -119,9 +119,17 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     },
 
     getDeviceColor: function (device) {
+        var position = Ext.getStore('LatestPositions').findRecord('deviceId', device.get('id'), 0, false, false, true);
+        var speed = position.get('speed');
         switch (device.get('status')) {
             case 'online':
-                return Traccar.Style.mapColorOnline;
+                if (speed <= 3) {
+                    return Traccar.Style.mapColorStopped;
+                } else if (speed > 3 && speed <= 51) {
+                    return Traccar.Style.mapColorMoving;
+                } else if (speed > 51) {
+                    return Traccar.Style.mapColorSpeeding;
+                }
             case 'offline':
                 return Traccar.Style.mapColorOffline;
             default:
