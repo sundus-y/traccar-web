@@ -173,7 +173,8 @@ Ext.define('Traccar.view.edit.DevicesTreeViewController', {
         var offline;
         var online;
         var total = offline = online = 0;
-        this.getView().getStore().data.items[0].childNodes.forEach(function(cNode){
+        this.getView().getStore().data.items[0]
+        && this.getView().getStore().data.items[0].childNodes.forEach(function(cNode){
             cNode.childNodes.forEach(function (node) {
                 total ++;
                 if(node.data.status === 'online') online++;
