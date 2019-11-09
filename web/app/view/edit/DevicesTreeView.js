@@ -45,6 +45,9 @@ Ext.define('Traccar.view.edit.DevicesTreeView', {
             html: Strings.deviceTitle,
             baseCls: 'x-panel-header-title-default'
         }, {
+            xtype: 'tbfill',
+            disabled: false
+        }, {
             handler: 'onViewClick',
             reference: 'toolbarViewButton',
             glyph: 'xf06e@FontAwesome',
