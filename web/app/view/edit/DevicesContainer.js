@@ -37,5 +37,61 @@ Ext.define('Traccar.view.edit.DevicesContainer', {
             title: 'Tree View',
             xtype: 'devicesTreeView'
         }
-    ]
+    ],
+
+    listeners: {
+        afterrender: function(panel) {
+            var bar = panel.tabBar;
+            bar.insert(2, [{
+                xtype: 'component',
+                flex: 1
+            }, {
+                xtype: 'unescapedTextField',
+                reference: 'nameTextField',
+                name: 'name',
+                emptyText: 'Type to filter devices . . .',
+                width: 300,
+                listeners: {
+                    change: function(field, newValue, oldValue, eOpts) {
+                        var searchGrid = function(val) {
+                            var store = Ext.getStore('VisibleDevices');
+                            store.clearFilter();
+                            store.filter(new Ext.util.Filter({
+                                filterFn: function(object) {
+                                    var match = false;
+                                    Ext.Object.each(object.data, function(prop, value) {
+                                        match = match || (String(value).toLowerCase().indexOf(val.toLowerCase()) > -1);
+                                    });
+                                    return match;
+                                }
+                            }));
+                            return true;
+                        };
+
+                        var searchTree = function(val) {
+                            var store = Ext.getStore('DevicesTree');
+                            store.clearFilter();
+                            store.filter(new Ext.util.Filter({
+                                filterFn: function(object) {
+                                    var match = false;
+                                    if (object.data.root || object.data.parentId === 'root') return true;
+                                    var obj = object.data.original;
+                                    Ext.Object.each(obj.data, function(prop, value) {
+                                        match = match || (String(value).toLowerCase().indexOf(val.toLowerCase()) > -1);
+                                    });
+                                    return match;
+                                }
+                            }));
+                            return true;
+                        };
+
+                        Traccar.app.debounce (function(){
+                            searchGrid(newValue);
+                            searchTree(newValue);
+                        },200)();
+                    }
+                }
+            }]);
+        }
+    }
 });
