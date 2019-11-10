@@ -59,7 +59,6 @@ Ext.define('Traccar.view.edit.DevicesController', {
     objectModel: 'Traccar.model.Device',
     objectDialog: 'Traccar.view.dialog.Device',
     removeTitle: Strings.sharedDevice,
-    sundus: '(Online: 311, Offline: 200, Total: 400)',
 
     init: function () {
         var self = this, readonly, deviceReadonly;

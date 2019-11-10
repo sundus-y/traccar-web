@@ -22,7 +22,8 @@ Ext.define('Traccar.view.edit.DevicesTreeView', {
     requires: [
         'Traccar.AttributeFormatter',
         'Traccar.view.edit.DevicesTreeViewController',
-        'Traccar.view.ArrayListFilter'
+        'Traccar.view.ArrayListFilter',
+        'Traccar.view.dialog.DeviceContextMenu'
     ],
 
     controller: 'devicesTreeView',
@@ -61,7 +62,15 @@ Ext.define('Traccar.view.edit.DevicesTreeView', {
     },
 
     listeners: {
-        selectionchange: 'onSelectionChange'
+        selectionchange: 'onSelectionChange',
+        itemcontextmenu: function(grid, record, item, index, e) {
+            e.stopEvent();
+            if (record.data.leaf) {
+                var contextMenu = Ext.create('Traccar.view.dialog.DeviceContextMenu');
+                contextMenu.device = record.data.original;
+                contextMenu.showAt(e.getXY());
+            }
+        }
     },
 
     viewConfig: {
@@ -94,8 +103,11 @@ Ext.define('Traccar.view.edit.DevicesTreeView', {
                 store: 'Groups'
             },
             renderer: function (value, m, r) {
-                return Traccar.AttributeFormatter.getFormatter('groupId')(value)
-                    || Traccar.AttributeFormatter.getFormatter('groupId')(r.get('id'));
+                if (r.childNodes.length === 0) {
+                    return r.get('name') || r.get('id');
+                } else {
+                    return r.get('id') + " (" + r.childNodes.length + ")";
+                }
             }
 
         }, {

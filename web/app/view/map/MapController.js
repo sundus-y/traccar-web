@@ -71,7 +71,6 @@ Ext.define('Traccar.view.map.MapController', {
 
     openSendSMS: function() {
         var dialog = Ext.create('Traccar.view.dialog.SendSMS');
-        dialog.callingPanel = this;
         dialog.show();
     },
 

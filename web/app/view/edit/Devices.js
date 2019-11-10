@@ -23,7 +23,8 @@ Ext.define('Traccar.view.edit.Devices', {
         'Traccar.AttributeFormatter',
         'Traccar.view.edit.DevicesController',
         'Traccar.view.ArrayListFilter',
-        'Traccar.view.DeviceMenu'
+        'Traccar.view.DeviceMenu',
+        'Traccar.view.dialog.DeviceContextMenu'
     ],
 
     controller: 'devices',
@@ -86,7 +87,13 @@ Ext.define('Traccar.view.edit.Devices', {
     },
 
     listeners: {
-        selectionchange: 'onSelectionChange'
+        selectionchange: 'onSelectionChange',
+        itemcontextmenu: function(grid, record, item, index, e) {
+            e.stopEvent();
+            var contextMenu = Ext.create('Traccar.view.dialog.DeviceContextMenu');
+            contextMenu.device = record;
+            contextMenu.showAt(e.getXY());
+        }
     },
 
     viewConfig: {
