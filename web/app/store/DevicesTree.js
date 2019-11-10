@@ -55,11 +55,13 @@ Ext.define('Traccar.store.DevicesTree', {
             }
             nodes.push(node);
         }, this);
-        nodes.push({
-            id: "NA",
-            original: null,
-            leaf: true
-        });
+        if (Traccar.app.getUser().get('administrator')) {
+            nodes.push({
+                id: "NA",
+                original: null,
+                leaf: true
+            });
+        }
         devicesStore.each(function (record) {
             var groupId, node = {};
             Object.keys(record.data).forEach(function (key) {
