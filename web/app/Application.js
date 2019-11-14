@@ -115,7 +115,8 @@ Ext.define('Traccar.Application', {
         'AllNotificators',
         'SMSNotifications',
         'SMSRecipientTypes',
-        'DevicesTree'
+        'DevicesTree',
+        'SubCities'
     ],
 
     controllers: [

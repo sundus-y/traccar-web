@@ -107,6 +107,7 @@
   "attributeOldPlateNumber": "የድሮ የሰሌዳ ቁጥር",
   "attributeSIMNumber": "ሲም ቁጥር",
   "attributeSIMICCIDNumber": "ሲም ICCID ቁጥር",
+  "registrationSubCity": "የምዝገባ ክፍለ ከተማ",
   "attributeColor": "ቀለም",
   "attributeWebLiveRouteLength": "ድር-የቀጥታ መስመር ርዝመት",
   "attributeWebSelectZoom": "ድር: አጉላ መምረጫ",

@@ -107,6 +107,7 @@
     "attributeOldPlateNumber":"Old Plate Number",
     "attributeSIMNumber": "SIM Number",
     "attributeSIMICCIDNumber":"SIM ICCID Number",
+    "registrationSubCity": "Reg Sub City",
     "attributeColor": "Color",
     "attributeWebLiveRouteLength": "Web: Live Route Length",
     "attributeWebSelectZoom": "Web: Zoom On Select",

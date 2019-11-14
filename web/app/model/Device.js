@@ -103,5 +103,9 @@ Ext.define('Traccar.model.Device', {
         name: 'simIccidNumber',
         type: 'string',
         allowNull: true
+    }, {
+        name: 'registrationSubCity',
+        type: 'string',
+        allowNull: true
     }]
 });

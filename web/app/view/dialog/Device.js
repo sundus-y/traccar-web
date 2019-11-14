@@ -176,6 +176,14 @@ Ext.define('Traccar.view.dialog.Device', {
                             xtype: 'unescapedTextField',
                             name: 'engineNumber',
                             fieldLabel: Strings.attributeEngineNumber
+                        }, {
+                            xtype: 'clearableComboBox',
+                            name: 'registrationSubCity',
+                            fieldLabel: Strings.registrationSubCity,
+                            store: 'SubCities',
+                            queryMode: 'local',
+                            displayField: 'name',
+                            valueField: 'name'
                         }
                     ]
                 }
