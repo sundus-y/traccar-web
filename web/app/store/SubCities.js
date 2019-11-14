@@ -21,33 +21,33 @@ Ext.define('Traccar.store.SubCities', {
 
     data: [{
         id: 'Addis Ketema',
-        name: 'Addis Ketema',
+        name: 'Addis Ketema'
     }, {
         id: 'Akaky Kaliti',
-        name: 'Akaky Kaliti',
+        name: 'Akaky Kaliti'
     }, {
         id: 'Arada',
-        name: 'Arada',
+        name: 'Arada'
     }, {
         id: 'Bole',
-        name: 'Bole',
+        name: 'Bole'
     }, {
         id: 'Gullele',
-        name: 'Gullele',
+        name: 'Gullele'
     }, {
         id: 'Kirkos',
-        name: 'Kirkos',
+        name: 'Kirkos'
     }, {
         id: 'Kolfe Keranio',
-        name: 'Kolfe Keranio',
+        name: 'Kolfe Keranio'
     }, {
         id: 'Lideta',
-        name: 'Lideta',
+        name: 'Lideta'
     }, {
         id: 'Nifas Silk-Lafto',
-        name: 'Nifas Silk-Lafto',
+        name: 'Nifas Silk-Lafto'
     }, {
         id: 'Yeka',
-        name: 'Yeka',
+        name: 'Yeka'
     }]
 });
