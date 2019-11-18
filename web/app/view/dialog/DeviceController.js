@@ -23,7 +23,25 @@ Ext.define('Traccar.view.dialog.DeviceController', {
     init: function () {
         if (Traccar.app.getUser().get('administrator')) {
             this.lookupReference('disabledField').setHidden(false);
+            this.lookupReference('changeOwnerButton').setDisabled(false);
         }
+    },
+
+    onChangeOwner: function() {
+        var device = this.getView().down('form').getRecord();
+        var dialog = Ext.create('Traccar.view.dialog.ChangeOwner');
+        dialog.ownerChanged = false;
+        dialog.addListener('hide', function(dialog){
+            if (dialog.ownerChanged) {
+                Traccar.app.showToast('The Owner has been changed.', 'Device Updted');
+                this.closeView();
+            }
+        }, this);
+        dialog.down('form').loadRecord(device);
+        dialog.lookupReference('contact').setValue('');
+        dialog.lookupReference('gender').setValue('');
+        dialog.lookupReference('phone').setValue('');
+        dialog.show();
     }
 
 });

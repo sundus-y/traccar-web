@@ -96,6 +96,12 @@ Ext.define('Traccar.view.dialog.Device', {
                             xtype: 'unescapedTextField',
                             name: 'phone',
                             fieldLabel: Strings.sharedPhone
+                        }, {
+                            xtype: 'button',
+                            disabled: true,
+                            handler: 'onChangeOwner',
+                            reference: 'changeOwnerButton',
+                            text: Strings.changeOwner
                         }
                     ]
                 }, {

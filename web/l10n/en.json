@@ -161,6 +161,8 @@
     "deviceModel": "GPS Device Model",
     "deviceContact": "Contact",
     "deviceContactDetails": "Contact Details",
+    "deviceNewContactDetails": "New Contact Details",
+    "changeOwner": "Change Owner",
     "deviceCategory": "Category",
     "deviceLastUpdate": "Last Update",
     "deviceCommand": "Command",
