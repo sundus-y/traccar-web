@@ -25,7 +25,7 @@ Ext.define('Traccar.view.dialog.Base', {
 
     initComponent: function () {
         if (window.innerHeight) {
-            this.maxHeight = window.innerHeight - Traccar.Style.normalPadding * 2;
+            this.maxHeight = window.innerHeight;
         }
         this.callParent();
     }

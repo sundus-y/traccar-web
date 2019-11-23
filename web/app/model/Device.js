@@ -67,7 +67,16 @@ Ext.define('Traccar.model.Device', {
         type: 'string',
         allowNull: true
     }, {
+        name: 'newPlateNumber',
+        type: 'string',
+        allowNull: true
+    }, {
         name: 'membershipDate',
+        type: 'date',
+        dateFormat: 'c',
+        allowNull: true
+    }, {
+        name: 'membershipRenewalDate',
         type: 'date',
         dateFormat: 'c',
         allowNull: true

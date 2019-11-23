@@ -585,6 +585,9 @@ Ext.define('Traccar.view.ReportController', {
         text: Strings.devicePlateNumber,
         dataIndex: 'plateNumber'
     }, {
+        text: Strings.deviceNewPlateNumber,
+        dataIndex: 'newPlateNumber'
+    }, {
         text: Strings.vehicleModel,
         dataIndex: 'vehicleModel'
     }, {

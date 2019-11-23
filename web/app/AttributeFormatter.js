@@ -230,6 +230,10 @@ Ext.define('Traccar.AttributeFormatter', {
                 return function(value) {
                     return Ext.Date.format(value, Traccar.Style.dateFormat);
                 };
+            case 'membershipRenewalDate':
+                return function(value) {
+                    return Ext.Date.format(value, Traccar.Style.dateFormat);
+                };
             case 'timestamp':
                 return function(value) {
                     return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);

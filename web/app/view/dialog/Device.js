@@ -96,12 +96,6 @@ Ext.define('Traccar.view.dialog.Device', {
                             xtype: 'unescapedTextField',
                             name: 'phone',
                             fieldLabel: Strings.sharedPhone
-                        }, {
-                            xtype: 'button',
-                            disabled: true,
-                            handler: 'onChangeOwner',
-                            reference: 'changeOwnerButton',
-                            text: Strings.changeOwner
                         }
                     ]
                 }, {
@@ -115,7 +109,27 @@ Ext.define('Traccar.view.dialog.Device', {
                             queryMode: 'local',
                             displayField: 'name',
                             valueField: 'id'
-                        },{
+                        }, {
+                            xtype: 'button',
+                            disabled: true,
+                            handler: 'onChangeOwner',
+                            reference: 'changeOwnerButton',
+                            text: Strings.changeOwner,
+                            width: '100%'
+                        }
+                    ]
+                }
+            ]
+        }, {
+            xtype: 'fieldset',
+            title: Strings.deviceMembershipDetails,
+            layout: "column",
+            items: [
+                {
+                    xtype: 'container',
+                    width: '300px',
+                    items: [
+                        {
                             xtype: 'datefield',
                             name: 'membershipDate',
                             reference: 'membershipDateField',
@@ -124,9 +138,21 @@ Ext.define('Traccar.view.dialog.Device', {
                             format: Traccar.Style.dateFormat
                         }
                     ]
+                }, {
+                    xtype: 'container',
+                    items: [
+                        {
+                            xtype: 'datefield',
+                            name: 'membershipRenewalDate',
+                            reference: 'membershipRenewalDateField',
+                            fieldLabel: Strings.membershipRenewalDate,
+                            startDay: Traccar.Style.weekStartDay,
+                            format: Traccar.Style.dateFormat
+                        }
+                    ]
                 }
             ]
-        }, {
+        },  {
             xtype: 'fieldset',
             title: Strings.vehicleDetails,
             layout: "column",
@@ -164,6 +190,14 @@ Ext.define('Traccar.view.dialog.Device', {
                                         '<td>{name}</td></tr></table>';
                                 }
                             }
+                        }, {
+                            xtype: 'clearableComboBox',
+                            name: 'registrationSubCity',
+                            fieldLabel: Strings.registrationSubCity,
+                            store: 'SubCities',
+                            queryMode: 'local',
+                            displayField: 'name',
+                            valueField: 'name'
                         }
                     ]
                 },
@@ -180,16 +214,12 @@ Ext.define('Traccar.view.dialog.Device', {
                             fieldLabel: Strings.devicePlateNumber
                         }, {
                             xtype: 'unescapedTextField',
+                            name: 'newPlateNumber',
+                            fieldLabel: Strings.deviceNewPlateNumber
+                        }, {
+                            xtype: 'unescapedTextField',
                             name: 'engineNumber',
                             fieldLabel: Strings.attributeEngineNumber
-                        }, {
-                            xtype: 'clearableComboBox',
-                            name: 'registrationSubCity',
-                            fieldLabel: Strings.registrationSubCity,
-                            store: 'SubCities',
-                            queryMode: 'local',
-                            displayField: 'name',
-                            valueField: 'name'
                         }
                     ]
                 }

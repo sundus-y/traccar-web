@@ -130,6 +130,11 @@ Ext.define('Traccar.view.edit.DevicesTreeView', {
             hidden: true,
             filter: 'string'
         }, {
+            text: Strings.deviceNewPlateNumber,
+            dataIndex: 'newPlateNumber',
+            hidden: true,
+            filter: 'string'
+        }, {
             text: Strings.vehicleModel,
             dataIndex: 'vehicleModel',
             hidden: true,

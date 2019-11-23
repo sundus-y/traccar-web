@@ -299,8 +299,9 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             style = this.getLatestMarker(this.getDeviceColor(device),
                 position.get('course'),
                 device.get('category'));
-            var deviceName = Ext.String.htmlDecode(device.get('plateNumber'));
-            if(deviceName === '') deviceName = Ext.String.htmlDecode(device.get('name'));
+            var deviceName = Ext.String.htmlDecode(device.get('newPlateNumber'));
+            if(!deviceName) deviceName =  Ext.String.htmlDecode(device.get('plateNumber'));
+            if(!deviceName) deviceName = Ext.String.htmlDecode(device.get('name'));
             style.getText().setText(deviceName);
             marker.setStyle(style);
             marker.setId(device.get('id'));
