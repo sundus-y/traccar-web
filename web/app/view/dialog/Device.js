@@ -111,11 +111,19 @@ Ext.define('Traccar.view.dialog.Device', {
                             valueField: 'id'
                         }, {
                             xtype: 'button',
-                            disabled: true,
+                            handler: 'onShowOwnerHistory',
+                            reference: 'showOwnerHistoryButton',
+                            text: Strings.showOwnerHistory,
+                            width: '100%',
+                            style: 'background-color: mediumseagreen;'
+                        }, {
+                            xtype: 'button',
+                            hidden: true,
                             handler: 'onChangeOwner',
                             reference: 'changeOwnerButton',
                             text: Strings.changeOwner,
-                            width: '100%'
+                            width: '100%',
+                            style: 'margin-top: 10px;'
                         }
                     ]
                 }

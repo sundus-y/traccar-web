@@ -166,6 +166,8 @@
     "deviceMembershipDetails": "Membership Details",
     "deviceNewContactDetails": "New Contact Details",
     "changeOwner": "Change Owner",
+    "showOwnerHistory": "Show Owner Change History",
+    "endDate": "End Date",
     "deviceCategory": "Category",
     "deviceLastUpdate": "Last Update",
     "deviceCommand": "Command",

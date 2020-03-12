@@ -166,6 +166,8 @@
   "deviceMembershipDetails": "የአባልነት ዝርዝሮች",
   "deviceNewContactDetails": "አዲስ የእውቂያ ዝርዝሮች",
   "changeOwner": "ባለቤት ለውጥ",
+  "showOwnerHistory": "የባለቤት ለውጥ ታሪክ አሳይ",
+  "endDate": "የመጨረሻ ቀን",
   "deviceCategory": "ምድብ",
   "deviceLastUpdate": "የመጨረሻ ዝመና",
   "deviceCommand": "ትእዛዝ",

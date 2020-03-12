@@ -36,6 +36,12 @@ Ext.define('Traccar.view.dialog.ChangeOwner', {
                                 name: 'phone',
                                 reference: 'phone',
                                 fieldLabel: Strings.sharedPhone
+                            }, {
+                                xtype: 'datefield',
+                                name: 'endDate',
+                                reference: 'endDate',
+                                fieldLabel: Strings.endDate,
+                                format: Traccar.Style.dateFormat
                             }
                         ]
                     }
