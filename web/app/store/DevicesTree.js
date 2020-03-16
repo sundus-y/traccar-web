@@ -86,22 +86,22 @@ Ext.define('Traccar.store.DevicesTree', {
     },
 
     onGroupLoad: function () {
-        console.log('onGroupLoad');
+        // console.log('onGroupLoad');
         this.reloadData();
     },
 
     onDeviceLoad: function () {
-        console.log('onDeviceLoad');
+        // console.log('onDeviceLoad');
         this.reloadData();
     },
 
     onGroupUpdate: function () {
-        console.log('onGroupUpdate');
+        // console.log('onGroupUpdate');
         // this.reloadData();
     },
 
     onDeviceUpdate: function (a,b,c) {
-        console.log('onDeviceUpdate');
+        // console.log('onDeviceUpdate');
         // this.reloadData();
     }
 });
