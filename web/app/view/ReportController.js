@@ -76,6 +76,7 @@ Ext.define('Traccar.view.ReportController', {
         data = Ext.getStore('PositionAttributes').getData().items;
         admin = Traccar.app.getUser().get('administrator');
         this.lookupReference('govReports').setHidden(!admin);
+        this.lookupReference('emailButton').setHidden(!admin);
         for (i = 0; i < data.length; i++) {
             attribute = data[i];
             this.routeColumns.push({
@@ -217,7 +218,7 @@ Ext.define('Traccar.view.ReportController', {
                     mail = button.reference.indexOf('email') !== -1;
                 } else {
                     url = this.getGrid().getStore().getProxy().url;
-                    mail = button.reference === 'emailButton'
+                    mail = button.reference === 'emailButton';
                 }
                 if (button.reference.indexOf('email') !== -1) {
                     var dialog = Ext.create('Traccar.view.dialog.SendGovEmailConfirm');

@@ -67,6 +67,7 @@ Ext.define('Traccar.view.Report', {
             text: Strings.reportEmail,
             reference: 'emailButton',
             disabled: true,
+            hidden: true,
             handler: 'onReportClick'
         }, new Ext.SplitButton({
             text: Strings.govReports,
