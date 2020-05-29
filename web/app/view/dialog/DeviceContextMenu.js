@@ -2,7 +2,7 @@ Ext.define('Traccar.view.dialog.DeviceContextMenu', {
     extend: 'Ext.menu.Menu',
     items: [
         {
-            text: 'View Device',
+            text: Strings.sharedViewDevice,
             glyph: 'xf06e@FontAwesome',
             handler: function() {
                 var objectInstance = this.parentMenu.device;
@@ -29,7 +29,7 @@ Ext.define('Traccar.view.dialog.DeviceContextMenu', {
                 dialog.show();
             }
         }, {
-            text: 'View SMS',
+            text: Strings.sharedViewSMS,
             glyph: 'xf27b@FontAwesome',
             handler: function() {
                 var dialog = Ext.create('Traccar.view.BaseWindow', {
@@ -42,13 +42,22 @@ Ext.define('Traccar.view.dialog.DeviceContextMenu', {
                 dialog.show();
             }
         }, {
-            text: 'Send SMS',
+            text: Strings.sendSMS,
             glyph: 'xf1d8@FontAwesome',
             handler: function() {
                 var objectInstance = this.parentMenu.device;
                 var dialog = Ext.create('Traccar.view.dialog.SendSMS');
                 dialog.lookupReference('smsRecipientType').setValue('selectedDevices');
                 dialog.lookupReference('selectedDevices').setValue(objectInstance.data.id);
+                dialog.show();
+            }
+        }, {
+            text: Strings.turnOffOverspeedLight,
+            glyph: 'xf0eb@FontAwesome',
+            handler: function() {
+                var objectInstance = this.parentMenu.device;
+                var dialog = Ext.create('Traccar.view.dialog.DeviceLightOffConfirm');
+                dialog.objectInstance = objectInstance;
                 dialog.show();
             }
         }
