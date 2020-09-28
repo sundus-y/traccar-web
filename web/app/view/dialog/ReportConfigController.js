@@ -47,13 +47,13 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
         callingPanel.period = this.lookupReference('periodField').getValue();
         callingPanel.allDevices = this.lookupReference('allDevicesField').getValue();
         if (this.lookupReference('allDevicesField').getValue()) {
-            var devices = [];
-            var allDevices = this.lookupReference('deviceField').store.data.items;
-            for(var i=0; i < allDevices.length; i++) {
-                devices.push(allDevices[i].id);
+            var groups = [];
+            var allGroups = this.lookupReference('groupField').store.data.items;
+            for(var i = 0; i < allGroups.length; i++) {
+                groups.push(allGroups[i].id);
             }
-            callingPanel.deviceId = devices;
-            callingPanel.groupId = []
+            callingPanel.deviceId = [];
+            callingPanel.groupId = groups;
         }
         callingPanel.updateButtons();
         button.up('window').close();
@@ -75,6 +75,6 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
     },
 
     onReportAllDevices: function(checkbox) {
-        deviceId = this.lookupReference('deviceField').getValue();
+        groupId = this.lookupReference('groupField').getValue();
     }
 });

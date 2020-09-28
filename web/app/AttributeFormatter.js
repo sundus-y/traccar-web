@@ -182,7 +182,7 @@ Ext.define('Traccar.AttributeFormatter', {
             return value ? Ext.Msg.buttonText.yes : Ext.Msg.buttonText.no;
         } else if (value instanceof Date) {
             if (Traccar.app.getPreference('twelveHourFormat', false)) {
-                return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
+                return Ext.Date.format(value, Traccar.Style.simpleDateTime);
             } else {
                 return Ext.Date.format(value, Traccar.Style.dateTimeFormat24);
             }
@@ -236,7 +236,7 @@ Ext.define('Traccar.AttributeFormatter', {
                 };
             case 'timestamp':
                 return function(value) {
-                    return Ext.Date.format(value, Traccar.Style.dateTimeFormat12);
+                    return Ext.Date.format(value, Traccar.Style.simpleDateTime);
                 };
             default:
                 return this.defaultFormatter;

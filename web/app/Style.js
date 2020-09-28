@@ -34,6 +34,7 @@ Ext.define('Traccar.Style', {
     timeFormat24: 'H:i',
     timeFormat12: 'g:i a',
     dateFormat: 'Y-m-d',
+    simpleDateTime: 'Y-m-d g:i a',
     weekStartDay: 1,
 
     deviceWidth: 400,
