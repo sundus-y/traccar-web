@@ -121,13 +121,14 @@ Ext.define('Traccar.view.map.MapMarkerController', {
     getDeviceColor: function (device) {
         var position = Ext.getStore('LatestPositions').findRecord('deviceId', device.get('id'), 0, false, false, true);
         var speed = position.get('speed');
+        var speedLimit = (device.get('attributes')['speedLimit'] || 0) * 1.852;
         switch (device.get('status')) {
             case 'online':
                 if (speed <= 3) {
                     return Traccar.Style.mapColorStopped;
-                } else if (speed > 3 && speed <= 51) {
+                } else if (speed > 3 && speed <= (speedLimit || 51)) {
                     return Traccar.Style.mapColorMoving;
-                } else if (speed > 51) {
+                } else if (speed > (speedLimit || 51)) {
                     return Traccar.Style.mapColorSpeeding;
                 }
             case 'offline':

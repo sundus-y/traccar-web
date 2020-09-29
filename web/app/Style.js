@@ -20,7 +20,7 @@ Ext.define('Traccar.Style', {
 
     refreshPeriod: 60 * 1000,
     reconnectTimeout: 60 * 1000,
-    reportTimeout: 120 * 1000,
+    reportTimeout: 240 * 1000,
 
     normalPadding: 10,
 
