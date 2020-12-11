@@ -31,7 +31,7 @@ Ext.define('Traccar.view.map.BaseMap', {
 
     initMap: function (layer_url) {
         var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
-
+        var overlay, customMapPopup, customMapPopupContent;
         server = Traccar.app.getServer();
 
         type = Traccar.app.getPreference('map', null);
@@ -192,9 +192,20 @@ Ext.define('Traccar.view.map.BaseMap', {
             })
         ];
 
+        customMapPopup = document.getElementById('customMapPopup');
+        customMapPopupContent = document.getElementById('popup-content');
+        overlay = new ol.Overlay({
+            element: customMapPopup,
+            autoPan: true,
+            autoPanAnimation: {
+                duration: 250
+            }
+        });
+
         this.map = new ol.Map({
-            target: this.body.dom.id,
+            target: 'customMapContainer',
             layers: layers,
+            overlays: [overlay],
             view: this.mapView
         });
 
@@ -237,13 +248,57 @@ Ext.define('Traccar.view.map.BaseMap', {
         }
 
         this.map.on('pointermove', function (e) {
-            var hit = this.forEachFeatureAtPixel(e.pixel, function () {
-                return true;
+            var coordinate, record, plateNumber, position, speed, lastUpdatedAt, lastLocation;
+            var hit = this.forEachFeatureAtPixel(e.pixel, function (feature,layer) {
+                return {feature: feature, layer: layer};
             });
             if (hit) {
                 target.style.cursor = 'pointer';
+                if(!hit["layer"].get('name')) {
+                    record = hit["feature"].get('record');
+                    coordinate = hit["feature"].get('geometry').flatCoordinates;
+                    plateNumber = record.get('newPlateNumber') ? record.get('newPlateNumber') : record.get('plateNumber');
+                    position = Ext.getStore('LatestPositions').findRecord('deviceId', record.get('id'), 0, false, false, true);
+                    if (position) {
+                        speed = position.get('speed') ? position.get('speed').toFixed() : 0;
+                    } else {
+                        speed = 0;
+                    }
+                    if (position) {
+                        lastUpdatedAt = position.get('fixTime') ? position.get('fixTime').toLocaleString() : 'Unknown';
+                    } else {
+                        lastUpdatedAt = 'Unknown';
+                    }
+                    lastLocation = position ? position.get('address') : 'Unknown';
+                    customMapPopupContent.innerHTML = '<ul>' +
+                            '<li>Owner Name: <b>' + record.get('contact') + '</b></li>' +
+                            '<li>Group/Company: <b>' + record.get('groupName') + '</b></li>' +
+                            '<li>Phone Number: <b>' + record.get('phone') + '</b></li>' +
+                        '</ul>' +
+                        '<hr>' +
+                        '<ul>' +
+                            '<li>Plate Number: <b>' + plateNumber + '</b></li>' +
+                            '<li>Vehicle Model: <b>' + record.get('vehicleModel') + '</b></li>' +
+                            '<li>Chassis Number: <b>' + record.get('chassisNumber') + '</b></li>' +
+                            '<li>Engine Number: <b>' + record.get('engineNumber') + '</b></li>' +
+                        '</ul>' +
+                        '<hr>' +
+                        '<ul>' +
+                            '<li>IMEI Number: <b>' + record.get('uniqueId') + '</b></li>' +
+                            '<li>SIM Number: <b>' + record.get('simNumber') + '</b></li>' +
+                            '<li>Last Speed: <b>' + speed + ' Km/h </b></li>' +
+                            '<li>Last Updated at: <b>' + lastUpdatedAt + '</b></li>' +
+                            '<li>Last Location: <b>' + lastLocation + '</b></li>' +
+                        '</ul>';
+                    overlay.setPosition(coordinate);
+                } else {
+                    customMapPopupContent.innerHTML = '';
+                    overlay.setPosition(undefined);
+                }
             } else {
                 target.style.cursor = '';
+                customMapPopupContent.innerHTML = '';
+                overlay.setPosition(undefined);
             }
         });
 

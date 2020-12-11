@@ -25,7 +25,10 @@ Ext.define('Traccar.view.map.Map', {
     ],
 
     controller: 'map',
-
+    html: '<div id="customMapContainer" class="map"></div>' +
+        '<div id="customMapPopup" class="ol-popup">' +
+        '<div id="popup-content"></div>' +
+        '</div>',
     title: Strings.mapTitle,
     tbar: {
         componentCls: 'toolbar-header-style',

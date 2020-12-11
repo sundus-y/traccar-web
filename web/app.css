@@ -56,3 +56,57 @@ body.x-border-layout-ct, div.x-border-layout-ct {
         transform: rotate(360deg);
     }
 }
+
+#customMapContainer {
+    width: 100%;
+    height: 100vh;
+}
+
+.ol-popup {
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    border: 1px solid #cccccc;
+    padding: 0 10px;
+    bottom: 12px;
+    left: -50px;
+    max-width: 380px;
+    min-width: 330px;
+}
+.ol-popup:after, .ol-popup:before {
+    top: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+.ol-popup:after {
+    border-top-color: white;
+    border-width: 10px;
+    left: 48px;
+    margin-left: -10px;
+}
+.ol-popup:before {
+    border-top-color: #cccccc;
+    border-width: 11px;
+    left: 48px;
+    margin-left: -11px;
+}
+
+.ol-popup ul {
+    margin-left: -35px;
+}
+
+.ol-popup li {
+    list-style-position:inside;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ol-popup b {
+    text-transform: uppercase;
+}
