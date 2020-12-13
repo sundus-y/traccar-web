@@ -48,6 +48,10 @@ Ext.define('Traccar.model.Event', {
             var text, alarmKey, geofence, maintenance;
             if (rec.get('type') === 'commandResult') {
                 text = Strings.eventCommandResult + ': ' + rec.get('attributes')['result'];
+            } else if (rec.get('type') === 'alarm' && rec.get('attributes')['alarm'] === 'hardBraking') {
+                var previousSpeed = Traccar.AttributeFormatter.speedFormatter(Traccar.AttributeFormatter.speedConverter(rec.get('attributes')['previousSpeed']));
+                var currentSpeed = Traccar.AttributeFormatter.speedFormatter(Traccar.AttributeFormatter.speedConverter(rec.get('attributes')['currentSpeed']));
+                text = 'Crash: Hard Braking from ' + previousSpeed.substring(0, previousSpeed.length - 4) + ' to ' + currentSpeed + '.';
             } else if (rec.get('type') === 'alarm') {
                 alarmKey = rec.get('attributes')['alarm'];
                 alarmKey = 'alarm' + alarmKey.charAt(0).toUpperCase() + alarmKey.slice(1);
@@ -61,7 +65,7 @@ Ext.define('Traccar.model.Event', {
                 var speed = Traccar.AttributeFormatter.speedFormatter(Traccar.AttributeFormatter.speedConverter(rec.get('attributes')['speed']));
                 var limit = Traccar.AttributeFormatter.speedFormatter(Traccar.AttributeFormatter.speedConverter(rec.get('attributes')['speedLimit']));
                 text = Strings.positionSpeed + ': ' + speed;
-                text += " (" + Strings.attributeSpeedLimit + ": " + limit + ")";
+                text += ' (' + Strings.attributeSpeedLimit + ': ' + limit + ')';
             } else {
                 text = Traccar.app.getEventString(rec.get('type'));
             }
@@ -82,5 +86,17 @@ Ext.define('Traccar.model.Event', {
         depends: ['type', 'attributes', 'geofenceId', 'maintenanceId']
     }, {
         name: 'attributes'
+    }, {
+        name: 'warning',
+        convert: function (v, rec) {
+            var warning;
+            if (rec.get('type') === 'alarm' && rec.get('attributes')['alarm'] === 'hardBraking') {
+                warning = true;
+            } else {
+                warning = false;
+            }
+            return warning;
+        },
+        depends: ['type', 'attributes']
     }]
 });

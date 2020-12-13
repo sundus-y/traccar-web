@@ -288,7 +288,7 @@ Ext.define('Traccar.controller.Root', {
     },
 
     updateEvents: function (array) {
-        var i, store, device;
+        var i, store, device, style;
         store = Ext.getStore('Events');
         for (i = 0; i < array.length; i++) {
             store.add(array[i]);
@@ -297,7 +297,8 @@ Ext.define('Traccar.controller.Root', {
                 if (this.soundPressed()) {
                     this.beep();
                 }
-                Traccar.app.showToast(array[i].text, device.get('name'));
+                style = array[i].warning ? 'background:#dd5f5f' : '';
+                Traccar.app.showToast(array[i].text, device.get('name'), style);
             } else {
                 Traccar.app.showToast(array[i].text);
             }

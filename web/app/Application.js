@@ -240,12 +240,15 @@ Ext.define('Traccar.Application', {
         }
     },
 
-    showToast: function (message, title) {
+    showToast: function (message, title, style) {
         Ext.toast({
             html: message,
-            title: title,
             width: Traccar.Style.toastWidth,
-            align: 'br'
+            align: 'br',
+            header: Ext.panel.Header({
+                title: title,
+                style: style
+            })
         });
     },
 
