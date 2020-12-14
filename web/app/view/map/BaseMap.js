@@ -259,7 +259,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                     coordinate = hit["feature"].get('geometry').flatCoordinates;
                     plateNumber = record.get('newPlateNumber') ? record.get('newPlateNumber') : record.get('plateNumber');
                     position = Ext.getStore('LatestPositions').findRecord('deviceId', record.get('id'), 0, false, false, true);
-                    if (position) {
+                    if (position && (Date.now() - 3600000 < position.get('fixTime').getTime())) {
                         speed = position.get('speed') ? position.get('speed').toFixed() : 0;
                     } else {
                         speed = 0;
@@ -286,7 +286,7 @@ Ext.define('Traccar.view.map.BaseMap', {
                         '<ul>' +
                             '<li>IMEI Number: <b>' + record.get('uniqueId') + '</b></li>' +
                             '<li>SIM Number: <b>' + record.get('simNumber') + '</b></li>' +
-                            '<li>Last Speed: <b>' + speed + ' Km/h </b></li>' +
+                            '<li>Speed: <b>' + speed + ' Km/h </b></li>' +
                             '<li>Last Updated at: <b>' + lastUpdatedAt + '</b></li>' +
                             '<li>Last Location: <b>' + lastLocation + '</b></li>' +
                         '</ul>';
