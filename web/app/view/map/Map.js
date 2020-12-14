@@ -74,6 +74,7 @@ Ext.define('Traccar.view.map.Map', {
             enableToggle: false,
             tooltip: Strings.openPlaybackView
         }, {
+            hidden: true,
             handler: 'openSendSMS',
             reference: 'openSendSMSButton',
             enableToggle: false,

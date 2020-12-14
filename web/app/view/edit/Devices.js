@@ -65,21 +65,18 @@ Ext.define('Traccar.view.edit.Devices', {
             glyph: 'xf06e@FontAwesome',
             tooltip: Strings.sharedView
         }, {
-            handler: 'onViewSMSClick',
-            reference: 'toolbarViewSMSButton',
-            glyph: 'xf27b@FontAwesome',
-            tooltip: Strings.sharedViewSMS
-        }, {
             handler: 'onRemoveClick',
             reference: 'toolbarRemoveButton',
             glyph: 'xf00d@FontAwesome',
             tooltip: Strings.sharedRemove
-        }, {
-            handler: 'onCommandClick',
-            reference: 'deviceCommandButton',
-            glyph: 'xf093@FontAwesome',
-            tooltip: Strings.deviceCommand
-        }, {
+        },
+        //     {
+        //     handler: 'onCommandClick',
+        //     reference: 'deviceCommandButton',
+        //     glyph: 'xf093@FontAwesome',
+        //     tooltip: Strings.deviceCommand
+        // },
+        {
             xtype: 'deviceMenu',
             reference: 'toolbarDeviceMenu',
             enableToggle: false
@@ -88,10 +85,19 @@ Ext.define('Traccar.view.edit.Devices', {
 
     listeners: {
         selectionchange: 'onSelectionChange',
-        itemcontextmenu: function(grid, record, item, index, e) {
+        itemcontextmenu: function (grid, record, item, index, e) {
             e.stopEvent();
             var contextMenu = Ext.create('Traccar.view.dialog.DeviceContextMenu');
             contextMenu.device = record;
+            contextMenu.items.items.filter(function (i) {
+                return i.reference === 'viewSMSButton';
+            })[0].setVisible(Traccar.app.getUser().get('administrator'));
+            contextMenu.items.items.filter(function (i) {
+                return i.reference === 'sendSMSButton';
+            })[0].setVisible(Traccar.app.getUser().get('administrator'));
+            contextMenu.items.items.filter(function (i) {
+                return i.reference === 'turnOffOverspeedLightButton';
+            })[0].setVisible(Traccar.app.getUser().get('administrator'));
             contextMenu.showAt(e.getXY());
         }
     },

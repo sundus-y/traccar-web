@@ -31,6 +31,8 @@ Ext.define('Traccar.view.dialog.DeviceContextMenu', {
         }, {
             text: Strings.sharedViewSMS,
             glyph: 'xf27b@FontAwesome',
+            hidden: true,
+            reference: 'viewSMSButton',
             handler: function() {
                 var dialog = Ext.create('Traccar.view.BaseWindow', {
                     title: Strings.smsNotifications,
@@ -44,6 +46,8 @@ Ext.define('Traccar.view.dialog.DeviceContextMenu', {
         }, {
             text: Strings.sendSMS,
             glyph: 'xf1d8@FontAwesome',
+            hidden: true,
+            reference: 'sendSMSButton',
             handler: function() {
                 var objectInstance = this.parentMenu.device;
                 var dialog = Ext.create('Traccar.view.dialog.SendSMS');
@@ -54,6 +58,8 @@ Ext.define('Traccar.view.dialog.DeviceContextMenu', {
         }, {
             text: Strings.turnOffOverspeedLight,
             glyph: 'xf0eb@FontAwesome',
+            hidden: true,
+            reference: 'turnOffOverspeedLightButton',
             handler: function() {
                 var objectInstance = this.parentMenu.device;
                 var dialog = Ext.create('Traccar.view.dialog.DeviceLightOffConfirm');

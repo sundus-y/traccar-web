@@ -64,7 +64,11 @@ Ext.define('Traccar.view.edit.DevicesController', {
         var self = this, readonly, deviceReadonly;
         deviceReadonly = Traccar.app.getPreference('deviceReadonly', false) && !Traccar.app.getUser().get('administrator');
         readonly = Traccar.app.getPreference('readonly', false) && !Traccar.app.getUser().get('administrator');
+        this.lookupReference('toolbarAddButton').setHidden(readonly || deviceReadonly);
         this.lookupReference('toolbarAddButton').setDisabled(readonly || deviceReadonly);
+        this.lookupReference('toolbarEditButton').setHidden(readonly || deviceReadonly);
+        this.lookupReference('toolbarRemoveButton').setHidden(readonly || deviceReadonly);
+        // this.lookupReference('deviceCommandButton').setHidden(readonly || deviceReadonly);
         this.lookupReference('toolbarDeviceMenu').setHidden(readonly || deviceReadonly);
 
         setInterval(function () {
@@ -127,12 +131,11 @@ Ext.define('Traccar.view.edit.DevicesController', {
         empty = selected.length === 0;
         this.lookupReference('toolbarEditButton').setDisabled(empty || readonly || deviceReadonly);
         this.lookupReference('toolbarViewButton').setDisabled(empty);
-        this.lookupReference('toolbarViewSMSButton').setDisabled(empty);
         this.lookupReference('toolbarRemoveButton').setDisabled(empty || readonly || deviceReadonly);
         deviceMenu = this.lookupReference('toolbarDeviceMenu');
         deviceMenu.device = empty ? null : selected[0];
         deviceMenu.setDisabled(empty);
-        this.lookupReference('deviceCommandButton').setDisabled(empty || readonly);
+        // this.lookupReference('deviceCommandButton').setDisabled(empty || readonly);
     },
 
     onSelectionChange: function (el, records) {

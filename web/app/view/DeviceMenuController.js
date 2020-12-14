@@ -69,6 +69,17 @@ Ext.define('Traccar.view.DeviceMenuController', {
         }).show();
     },
 
+    onViewSMSClick: function () {
+        var dialog = Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.smsNotifications,
+            items: {
+                xtype: 'smsNotificationsView'
+            }
+        });
+        dialog.deviceId = this.getView().up('deviceMenu').device.getId();
+        dialog.show();
+    },
+
     onComputedAttributesClick: function () {
         Ext.create('Traccar.view.BaseWindow', {
             title: Strings.sharedComputedAttributes,

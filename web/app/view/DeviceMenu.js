@@ -47,6 +47,11 @@ Ext.define('Traccar.view.DeviceMenu', {
             handler: 'onNotificationsClick',
             reference: 'menuNotificationsButton'
         }, {
+            text: Strings.sharedViewSMS,
+            glyph: 'xf27b@FontAwesome',
+            handler: 'onViewSMSClick',
+            reference: 'toolbarViewSMSButton'
+        }, {
             text: Strings.sharedComputedAttributes,
             glyph: 'xf0ae@FontAwesome',
             handler: 'onComputedAttributesClick',

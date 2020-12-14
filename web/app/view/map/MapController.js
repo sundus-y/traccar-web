@@ -49,6 +49,7 @@ Ext.define('Traccar.view.map.MapController', {
             Traccar.app.isMobile() && !Traccar.app.getBooleanAttributePreference('ui.disableReport'));
         this.lookupReference('showEventsButton').setVisible(
             Traccar.app.isMobile() && !Traccar.app.getBooleanAttributePreference('ui.disableEvents'));
+        this.lookupReference('openSendSMSButton').setVisible(Traccar.app.getUser().get('administrator'));
     },
 
     showReports: function () {
