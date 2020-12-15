@@ -55,7 +55,7 @@ Ext.define('Traccar.store.DevicesTree', {
             }
             nodes.push(node);
         }, this);
-        if (Traccar.app.getUser().get('administrator')) {
+        if (Traccar.app.getUser().get('administrator') || nodes.length == 0) {
             nodes.push({
                 id: "NA",
                 original: null,
