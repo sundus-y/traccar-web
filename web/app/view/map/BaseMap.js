@@ -29,6 +29,10 @@ Ext.define('Traccar.view.map.BaseMap', {
         return this.mapView;
     },
 
+    getMapTarget: function() {
+        return this.body.dom.id;
+    },
+
     initMap: function (layer_url) {
         var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
         var overlay, customMapPopup, customMapPopupContent;
@@ -203,7 +207,7 @@ Ext.define('Traccar.view.map.BaseMap', {
         });
 
         this.map = new ol.Map({
-            target: 'customMapContainer',
+            target: this.getMapTarget(),
             layers: layers,
             overlays: [overlay],
             view: this.mapView
@@ -254,7 +258,7 @@ Ext.define('Traccar.view.map.BaseMap', {
             });
             if (hit) {
                 target.style.cursor = 'pointer';
-                if(!hit["layer"].get('name')) {
+                if(hit["layer"] && !hit["layer"].get('name')) {
                     record = hit["feature"].get('record');
                     coordinate = hit["feature"].get('geometry').flatCoordinates;
                     plateNumber = record.get('newPlateNumber') ? record.get('newPlateNumber') : record.get('plateNumber');
@@ -291,14 +295,16 @@ Ext.define('Traccar.view.map.BaseMap', {
                             '<li>Last Location: <b>' + lastLocation + '</b></li>' +
                         '</ul>';
                     overlay.setPosition(coordinate);
-                } else {
+                } else if (customMapPopupContent) {
                     customMapPopupContent.innerHTML = '';
                     overlay.setPosition(undefined);
                 }
             } else {
                 target.style.cursor = '';
-                customMapPopupContent.innerHTML = '';
-                overlay.setPosition(undefined);
+                if (customMapPopupContent) {
+                    customMapPopupContent.innerHTML = '';
+                    overlay.setPosition(undefined);
+                }
             }
         });
 
@@ -315,6 +321,11 @@ Ext.define('Traccar.view.map.BaseMap', {
             } else {
                 self.fireEvent('deselectfeature');
             }
+        });
+
+        this.map.on('contextmenu', function(e) {
+            console.log(e);
+            e.preventDefault();
         });
     },
 

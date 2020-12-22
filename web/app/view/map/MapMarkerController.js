@@ -82,11 +82,11 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         this.selectZoom = Traccar.app.getAttributePreference('web.selectZoom', 0);
     },
 
-    getAreaStyle: function (label, color) {
+    getAreaStyle: function (label, style) {
         var fillColor, strokeColor, styleConfig;
-        if (color) {
-            fillColor = ol.color.asArray(color);
-            strokeColor = color;
+        if (style['color']) {
+            fillColor = ol.color.asArray(style['color']);
+            strokeColor = style['color'];
         } else {
             fillColor = ol.color.asArray(Traccar.Style.mapGeofenceColor);
             strokeColor = Traccar.Style.mapGeofenceColor;
@@ -98,7 +98,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
             }),
             stroke: new ol.style.Stroke({
                 color: strokeColor,
-                width: Traccar.Style.mapGeofenceWidth
+                width: style['width'] || Traccar.Style.mapGeofenceWidth
             })
         };
         if (label) {
@@ -106,7 +106,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                 text: label,
                 overflow: true,
                 fill: new ol.style.Fill({
-                    color: Traccar.Style.mapGeofenceTextColor
+                    color: style['textColor'] || Traccar.Style.mapGeofenceTextColor
                 }),
                 stroke: new ol.style.Stroke({
                     color: Traccar.Style.mapTextStrokeColor,
@@ -269,7 +269,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                 feature.getGeometry().setRadius(radius);
             } else {
                 feature = new ol.Feature(new ol.geom.Circle(center, radius));
-                feature.setStyle(this.getAreaStyle(null, Traccar.Style.mapAccuracyColor));
+                feature.setStyle(this.getAreaStyle(null, {color: Traccar.Style.mapAccuracyColor}));
                 feature.setId(position.get('deviceId'));
                 this.accuracyCircles[position.get('deviceId')] = feature;
                 if (this.isDeviceVisible(device)) {

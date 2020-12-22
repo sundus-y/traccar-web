@@ -86,6 +86,10 @@ Ext.define('Traccar.Style', {
     mapGeofenceWidth: 5,
     mapGeofenceRadius: 9,
 
+    mapCustomLocationTextColor: 'rgb(37,92,22)',
+    mapCustomLocationColor: 'rgb(84,208,49)',
+    mapCustomLocationWidth: 2,
+
     mapAnimateMarkerDuration: 2000,
     mapAnimateMarkerTimeout: 40,
 

@@ -55,6 +55,12 @@ Ext.define('Traccar.view.SettingsMenu', {
             reference: 'settingsGeofencesButton'
         }, {
             hidden: true,
+            text: Strings.customMapLocations,
+            glyph: 'xf041@FontAwesome',
+            handler: 'onCustomMapLocationClick',
+            reference: 'settingsCustomMapLocationButton'
+        }, {
+            hidden: true,
             text: Strings.settingsServer,
             glyph: 'xf233@FontAwesome',
             handler: 'onServerClick',

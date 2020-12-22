@@ -62,6 +62,13 @@ Ext.define('Traccar.view.map.Map', {
             enableToggle: false,
             tooltip: Strings.reportEvents
         }, {
+            handler: 'updateCustomMapLocations',
+            reference: 'showCustomMapLocationsButton',
+            glyph: 'xf041@FontAwesome',
+            pressed: true,
+            stateId: 'show-custom-map-locations-button',
+            tooltip: Strings.customMapLocations
+        }, {
             handler: 'openMapOnlyView',
             reference: 'openMapOnlyView',
             glyph: 'xf0ac@FontAwesome',
@@ -124,6 +131,10 @@ Ext.define('Traccar.view.map.Map', {
         return this.geofencesSource;
     },
 
+    getCustomMapLocationsSource: function () {
+        return this.customMapLocationsSource;
+    },
+
     getLiveRouteSource: function () {
         return this.liveRouteSource;
     },
@@ -132,13 +143,23 @@ Ext.define('Traccar.view.map.Map', {
         return this.liveRouteLayer;
     },
 
+    getMapTarget: function() {
+        return 'customMapContainer';
+    },
+
     initMap: function () {
         this.callParent();
 
         this.geofencesSource = new ol.source.Vector({});
+        this.customMapLocationsSource = new ol.source.Vector({});
         this.map.addLayer(new ol.layer.Vector({
             name: 'geofencesLayer',
             source: this.geofencesSource
+        }));
+
+        this.map.addLayer(new ol.layer.Vector({
+            name: 'customMapLayer',
+            source: this.customMapLocationsSource
         }));
 
         this.liveRouteSource = new ol.source.Vector({});

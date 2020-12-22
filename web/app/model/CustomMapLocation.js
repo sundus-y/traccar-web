@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Anton Tananaev (anton@traccar.org)
+ * Copyright 2016 Anton Tananaev (anton@traccar.org)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,25 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-Ext.define('Traccar.model.SMSNotifications', {
+Ext.define('Traccar.model.CustomMapLocation', {
     extend: 'Ext.data.Model',
-    identifier: 'sequential',
+    identifier: 'negative',
 
     fields: [{
         name: 'id',
         type: 'int'
     }, {
-        name: 'msg',
+        name: 'name',
         type: 'string'
     }, {
-        name: 'phone',
+        name: 'description',
         type: 'string'
     }, {
-        name: 'sentTimestamp',
-        type: 'string',
-        convert: function (v, rec) {
-            var date = new Date(rec.get('queuedTimestamp'));
-            return Traccar.AttributeFormatter.getFormatter('timestamp')(date);
-        }
+        name: 'area',
+        type: 'string'
     }]
 });

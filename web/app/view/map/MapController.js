@@ -38,6 +38,12 @@ Ext.define('Traccar.view.map.MapController', {
                     add: 'updateGeofences',
                     update: 'updateGeofences',
                     remove: 'updateGeofences'
+                },
+                '#CustomMapLocations': {
+                    load: 'updateCustomMapLocations',
+                    add: 'updateCustomMapLocations',
+                    update: 'updateCustomMapLocations',
+                    remove: 'updateCustomMapLocations'
                 }
             }
         }
@@ -101,8 +107,25 @@ Ext.define('Traccar.view.map.MapController', {
                     Traccar.GeofenceConverter.wktToGeometry(this.getView().getMapView(), geofence.get('area')));
                 feature.setStyle(this.getAreaStyle(
                     Ext.String.htmlDecode(geofence.get('name')),
-                    geofence.get('attributes') ? geofence.get('attributes').color : null));
+                    {color: geofence.get('attributes') ? geofence.get('attributes').color : null}));
                 this.getView().getGeofencesSource().addFeature(feature);
+                return true;
+            }, this);
+        }
+    },
+
+    updateCustomMapLocations: function () {
+        this.getView().getCustomMapLocationsSource().clear();
+        if (this.lookupReference('showCustomMapLocationsButton').pressed) {
+            Ext.getStore('CustomMapLocations').each(function (customMapLocation) {
+                var feature = new ol.Feature(
+                    Traccar.GeofenceConverter.wktToGeometry(this.getView().getMapView(), customMapLocation.get('area')));
+                feature.setStyle(this.getAreaStyle(
+                    Ext.String.htmlDecode(customMapLocation.get('name')), {
+                        color: Traccar.Style.mapCustomLocationColor,
+                        textColor: Traccar.Style.mapCustomLocationTextColor,
+                        width: Traccar.Style.mapCustomLocationWidth}));
+                this.getView().getCustomMapLocationsSource().addFeature(feature);
                 return true;
             }, this);
         }

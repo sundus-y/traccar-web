@@ -26,6 +26,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         'Traccar.view.edit.Users',
         'Traccar.view.edit.Groups',
         'Traccar.view.edit.Geofences',
+        'Traccar.view.edit.CustomMapLocations',
         'Traccar.view.edit.Drivers',
         'Traccar.view.edit.Notifications',
         'Traccar.view.edit.ComputedAttributes',
@@ -53,6 +54,7 @@ Ext.define('Traccar.view.SettingsMenuController', {
         if (admin || !readonly) {
             this.lookupReference('settingsGroupsButton').setHidden(false);
             this.lookupReference('settingsGeofencesButton').setHidden(false);
+            this.lookupReference('settingsCustomMapLocationButton').setHidden(false);
             this.lookupReference('settingsNotificationsButton').setHidden(false);
             this.lookupReference('settingsCalendarsButton').setHidden(
                 Traccar.app.getBooleanAttributePreference('ui.disableCalendars'));
@@ -86,6 +88,15 @@ Ext.define('Traccar.view.SettingsMenuController', {
             title: Strings.sharedGeofences,
             items: {
                 xtype: 'geofencesView'
+            }
+        }).show();
+    },
+
+    onCustomMapLocationClick: function () {
+        Ext.create('Traccar.view.BaseWindow', {
+            title: Strings.customMapLocation,
+            items: {
+                xtype: 'customMapLocationsView'
             }
         }).show();
     },

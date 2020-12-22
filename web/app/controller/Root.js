@@ -120,6 +120,7 @@ Ext.define('Traccar.controller.Root', {
         Ext.getStore('Groups').load();
         Ext.getStore('Drivers').load();
         Ext.getStore('Geofences').load();
+        Ext.getStore('CustomMapLocations').load();
         Ext.getStore('Calendars').load();
         Ext.getStore('Maintenances').load();
         Ext.getStore('ComputedAttributes').load();

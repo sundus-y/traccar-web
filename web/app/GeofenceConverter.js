@@ -20,7 +20,7 @@ Ext.define('Traccar.GeofenceConverter', {
 
     wktToGeometry: function (mapView, wkt) {
         var geometry, projection, resolutionAtEquator, pointResolution, resolutionFactor,
-            points = [], center, radius, content, i, lat, lon, coordinates;
+            points = [], point, center, radius, content, i, lat, lon, coordinates;
         if (wkt.lastIndexOf('POLYGON', 0) === 0) {
             content = wkt.match(/\([^()]+\)/);
             if (content !== null) {
@@ -63,6 +63,16 @@ Ext.define('Traccar.GeofenceConverter', {
                     geometry = new ol.geom.LineString(points);
                 }
             }
+        } else if (wkt.lastIndexOf('POINT', 0) === 0) {
+            content = wkt.match(/\([^()]+\)/);
+            if (content !== null) {
+                coordinates = content[0].match(/-?\d+\.?\d*/g);
+                if (coordinates !== null) {
+                    projection = mapView.getProjection();
+                    point = ol.proj.transform([Number(coordinates[0]), Number(coordinates[1])], 'EPSG:4326', projection);
+                    geometry = new ol.geom.Point(point);
+                }
+            }
         }
         return geometry;
     },
@@ -95,6 +105,10 @@ Ext.define('Traccar.GeofenceConverter', {
                 result += points[i][1] + ' ' + points[i][0] + ', ';
             }
             result = result.substring(0, result.length - 2) + ')';
+        } else if (geometry instanceof ol.geom.Point) {
+            geometry.transform(projection, 'EPSG:4326');
+            point = geometry.getCoordinates();
+            result = 'POINT (' + point[0] + ',' + point[1] + ')';
         }
         return result;
     }
