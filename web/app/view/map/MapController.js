@@ -124,6 +124,7 @@ Ext.define('Traccar.view.map.MapController', {
                     Ext.String.htmlDecode(customMapLocation.get('name')), {
                         color: Traccar.Style.mapCustomLocationColor,
                         textColor: Traccar.Style.mapCustomLocationTextColor,
+                        font: Traccar.Style.mapCustomLocationTextFont,
                         width: Traccar.Style.mapCustomLocationWidth}));
                 this.getView().getCustomMapLocationsSource().addFeature(feature);
                 return true;

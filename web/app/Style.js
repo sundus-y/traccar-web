@@ -89,6 +89,7 @@ Ext.define('Traccar.Style', {
     mapCustomLocationTextColor: 'rgb(37,92,22)',
     mapCustomLocationColor: 'rgb(84,208,49)',
     mapCustomLocationWidth: 2,
+    mapCustomLocationTextFont: 'bold 18px sans-serif',
 
     mapAnimateMarkerDuration: 2000,
     mapAnimateMarkerTimeout: 40,
