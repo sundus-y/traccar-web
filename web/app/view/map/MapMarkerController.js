@@ -113,7 +113,7 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                     width: Traccar.Style.mapTextStrokeWidth
                 }),
                 font: style['font'] || Traccar.Style.mapTextFont,
-                backgroundFill: new ol.style.Fill({color: 'white'})
+                backgroundFill: new ol.style.Fill({color: 'rgba(255,251,128,0.2)'})
             });
         }
         return new ol.style.Style(styleConfig);

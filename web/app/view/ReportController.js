@@ -196,6 +196,7 @@ Ext.define('Traccar.view.ReportController', {
                         deviceId: this.deviceId,
                         groupId: this.groupId,
                         type: this.eventType,
+                        subType: this.alarmType,
                         from: from.toISOString(),
                         to: to.toISOString()
                     }

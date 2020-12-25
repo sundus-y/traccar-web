@@ -61,7 +61,20 @@ Ext.define('Traccar.view.dialog.ReportConfig', {
         hidden: true,
         valueField: 'type',
         displayField: 'name',
-        queryMode: 'local'
+        queryMode: 'local',
+        listeners: {
+            change: 'onEventTypeChange'
+        }
+    }, {
+        xtype: 'tagfield',
+        reference: 'eventAlarmsField',
+        fieldLabel: Strings.sharedAlarms,
+        maxWidth: Traccar.Style.formFieldWidth,
+        store: 'AlarmTypes',
+        valueField: 'key',
+        displayField: 'name',
+        queryMode: 'local',
+        hidden: true
     }, {
         fieldLabel: Strings.reportChartType,
         xtype: 'combobox',

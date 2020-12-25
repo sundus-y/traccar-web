@@ -25,6 +25,10 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
         'Traccar.store.AllNotifications'
     ],
 
+    onEventTypeChange: function (view, value) {
+        this.lookupReference('eventAlarmsField').setHidden(!value.includes('alarm'));
+    },
+
     onSaveClick: function (button) {
         var eventType, callingPanel;
         callingPanel = this.getView().callingPanel;
@@ -38,6 +42,7 @@ Ext.define('Traccar.view.dialog.ReportConfigController', {
             eventType = [Traccar.store.ReportEventTypes.allEvents];
         }
         callingPanel.eventType = eventType;
+        callingPanel.alarmType = this.lookupReference('eventAlarmsField').getValue();
         callingPanel.chartType = this.lookupReference('chartTypeField').getValue();
         callingPanel.showMarkers = this.lookupReference('showMarkersField').getValue();
         callingPanel.fromDate = this.lookupReference('fromDateField').getValue();
