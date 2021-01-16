@@ -48,7 +48,7 @@ Ext.define('Traccar.model.Event', {
             var text, alarmKey, geofence, maintenance;
             if (rec.get('type') === 'commandResult') {
                 text = Strings.eventCommandResult + ': ' + rec.get('attributes')['result'];
-            } else if (rec.get('type') === 'alarm' && rec.get('attributes')['alarm'] === 'hardBraking') {
+            } else if (rec.get('type') === 'alarm' && (rec.get('attributes')['alarm'] === 'hardBraking' || rec.get('attributes')['alarm'] === 'accident')) {
                 var previousSpeed = Traccar.AttributeFormatter.speedFormatter(Traccar.AttributeFormatter.speedConverter(rec.get('attributes')['previousSpeed']));
                 var currentSpeed = Traccar.AttributeFormatter.speedFormatter(Traccar.AttributeFormatter.speedConverter(rec.get('attributes')['currentSpeed']));
                 text = 'Crash: Hard Braking from ' + previousSpeed.substring(0, previousSpeed.length - 4) + ' to ' + currentSpeed + '.';
