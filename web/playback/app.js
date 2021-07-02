@@ -181,9 +181,16 @@ function init() {
             view.setZoom(user.zoom || server.zoom || 2);
             ajax('GET', '/api/devices', function (devices) {
                 var sel = document.getElementById('devices');
+                devices.sort(function (device1, device2) {
+                    if (device1.name.toUpperCase() > device2.name.toUpperCase()) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                });
                 for (var i = 0; i < devices.length; i++) {
                     var opt = document.createElement('option');
-                    opt.appendChild(document.createTextNode(devices[i].name + ' - ' + devices[i].plateNumber + ' - ' + devices[i].phone));
+                    opt.appendChild(document.createTextNode(devices[i].name.toUpperCase() + ' - ' + devices[i].plateNumber.toUpperCase() + ' - ' + devices[i].phone));
                     opt.value = devices[i].id;
                     sel.appendChild(opt);
                 }
