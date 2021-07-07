@@ -36,6 +36,7 @@ Ext.define('Traccar.view.map.BaseMap', {
     initMap: function (layer_url) {
         var server, layer, type, bingKey, lat, lon, zoom, maxZoom, target, poiLayer, self = this;
         var overlay, customMapPopup, customMapPopupContent;
+        var detailOpenedFor;
         server = Traccar.app.getServer();
 
         type = Traccar.app.getPreference('map', null);
@@ -252,15 +253,65 @@ Ext.define('Traccar.view.map.BaseMap', {
         }
 
         this.map.on('pointermove', function (e) {
-            var coordinate, record, plateNumber, position, speed, lastUpdatedAt, lastLocation;
+            var coordinate, record, plateNumber, position, speed, lastLocation;
             var hit = this.forEachFeatureAtPixel(e.pixel, function (feature,layer) {
                 return {feature: feature, layer: layer};
             });
             if (hit) {
                 target.style.cursor = 'pointer';
-                if(hit["layer"] && !hit["layer"].get('name')) {
+                if (hit["layer"] && !hit["layer"].get('name')) {
                     record = hit["feature"].get('record');
-                    coordinate = hit["feature"].get('geometry').flatCoordinates;
+                    if (record.get('id') !== detailOpenedFor) {
+                        detailOpenedFor = null;
+                        coordinate = hit["feature"].get('geometry').flatCoordinates;
+                        plateNumber = record.get('newPlateNumber') ? record.get('newPlateNumber') : record.get('plateNumber');
+                        position = Ext.getStore('LatestPositions').findRecord('deviceId', record.get('id'), 0, false, false, true);
+                        if (position && (Date.now() - 3600000 < position.get('fixTime').getTime())) {
+                            speed = position.get('speed') ? position.get('speed').toFixed() : 0;
+                        } else {
+                            speed = 0;
+                        }
+                        lastLocation = position ? position.get('address') : 'Unknown';
+                        customMapPopupContent.innerHTML = '<ul>' +
+                            '<li>Owner Name: <b>' + record.get('contact') + '</b></li>' +
+                            '<li>Phone Number: <b>' + record.get('phone') + '</b></li>' +
+                            '<li>Plate Number: <b>' + plateNumber + '</b></li>' +
+                            '</ul>' +
+                            '<hr>' +
+                            '<ul>' +
+                            '<li>Speed: <b>' + speed + ' Km/h </b></li>' +
+                            '<li>Location: <b>' + lastLocation + '</b></li>' +
+                            '</ul>';
+                        overlay.setPosition(coordinate);
+                    }
+                } else if (customMapPopupContent) {
+                    detailOpenedFor = null;
+                    customMapPopupContent.innerHTML = '';
+                    overlay.setPosition(undefined);
+                }
+            } else if (detailOpenedFor === null) {
+                target.style.cursor = '';
+                detailOpenedFor = null;
+                if (customMapPopupContent) {
+                    customMapPopupContent.innerHTML = '';
+                    overlay.setPosition(undefined);
+                }
+            }
+        });
+
+        this.map.on('click', function (e) {
+            var coordinate, record, plateNumber, position, speed, lastUpdatedAt, lastLocation;
+            var i, features = self.map.getFeaturesAtPixel(e.pixel, {
+                layerFilter: function (layer) {
+                    return !layer.get('name');
+                }
+            });
+            if (features) {
+                for (i = 0; i < features.length; i++) {
+                    self.fireEvent('selectfeature', features[i]);
+                    target.style.cursor = 'pointer';
+                    record = features[i].get('record');
+                    coordinate = features[i].get('geometry').flatCoordinates;
                     plateNumber = record.get('newPlateNumber') ? record.get('newPlateNumber') : record.get('plateNumber');
                     position = Ext.getStore('LatestPositions').findRecord('deviceId', record.get('id'), 0, false, false, true);
                     if (position && (Date.now() - 3600000 < position.get('fixTime').getTime())) {
@@ -275,51 +326,35 @@ Ext.define('Traccar.view.map.BaseMap', {
                     }
                     lastLocation = position ? position.get('address') : 'Unknown';
                     customMapPopupContent.innerHTML = '<ul>' +
-                            '<li>Owner Name: <b>' + record.get('contact') + '</b></li>' +
-                            '<li>Group/Company: <b>' + record.get('groupName') + '</b></li>' +
-                            '<li>Phone Number: <b>' + record.get('phone') + '</b></li>' +
+                        '<li>Owner Name: <b>' + record.get('contact') + '</b></li>' +
+                        '<li>Group/Company: <b>' + record.get('groupName') + '</b></li>' +
+                        '<li>Phone Number: <b>' + record.get('phone') + '</b></li>' +
                         '</ul>' +
                         '<hr>' +
                         '<ul>' +
-                            '<li>Plate Number: <b>' + plateNumber + '</b></li>' +
-                            '<li>Vehicle Model: <b>' + record.get('vehicleModel') + '</b></li>' +
-                            '<li>Chassis Number: <b>' + record.get('chassisNumber') + '</b></li>' +
-                            '<li>Engine Number: <b>' + record.get('engineNumber') + '</b></li>' +
+                        '<li>Plate Number: <b>' + plateNumber + '</b></li>' +
+                        '<li>Vehicle Model: <b>' + record.get('vehicleModel') + '</b></li>' +
+                        '<li>Chassis Number: <b>' + record.get('chassisNumber') + '</b></li>' +
+                        '<li>Engine Number: <b>' + record.get('engineNumber') + '</b></li>' +
                         '</ul>' +
                         '<hr>' +
                         '<ul>' +
-                            '<li>IMEI Number: <b>' + record.get('uniqueId') + '</b></li>' +
-                            '<li>SIM Number: <b>' + record.get('simNumber') + '</b></li>' +
-                            '<li>Speed: <b>' + speed + ' Km/h </b></li>' +
-                            '<li>Last Updated at: <b>' + lastUpdatedAt + '</b></li>' +
-                            '<li>Last Location: <b>' + lastLocation + '</b></li>' +
+                        '<li>IMEI Number: <b>' + record.get('uniqueId') + '</b></li>' +
+                        '<li>SIM Number: <b>' + record.get('simNumber') + '</b></li>' +
+                        '<li>Speed: <b>' + speed + ' Km/h </b></li>' +
+                        '<li>Last Updated at: <b>' + lastUpdatedAt + '</b></li>' +
+                        '<li>Last Location: <b>' + lastLocation + '</b></li>' +
                         '</ul>';
                     overlay.setPosition(coordinate);
-                } else if (customMapPopupContent) {
-                    customMapPopupContent.innerHTML = '';
-                    overlay.setPosition(undefined);
+                    detailOpenedFor = record.get('id');
                 }
             } else {
-                target.style.cursor = '';
+                self.fireEvent('deselectfeature');
+                detailOpenedFor = null;
                 if (customMapPopupContent) {
                     customMapPopupContent.innerHTML = '';
                     overlay.setPosition(undefined);
                 }
-            }
-        });
-
-        this.map.on('click', function (e) {
-            var i, features = self.map.getFeaturesAtPixel(e.pixel, {
-                layerFilter: function (layer) {
-                    return !layer.get('name');
-                }
-            });
-            if (features) {
-                for (i = 0; i < features.length; i++) {
-                    self.fireEvent('selectfeature', features[i]);
-                }
-            } else {
-                self.fireEvent('deselectfeature');
             }
         });
 
