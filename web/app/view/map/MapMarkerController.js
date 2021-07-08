@@ -123,20 +123,25 @@ Ext.define('Traccar.view.map.MapMarkerController', {
         var position = Ext.getStore('LatestPositions').findRecord('deviceId', device.get('id'), 0, false, false, true);
         var speed = position.get('speed');
         var speedLimit = (device.get('attributes')['speedLimit'] || 0) * 1.852;
+        var retval = '';
         switch (device.get('status')) {
             case 'online':
                 if (speed <= 3) {
-                    return Traccar.Style.mapColorStopped;
+                    retval = Traccar.Style.mapColorStopped;
                 } else if (speed > 3 && speed <= (speedLimit || 51)) {
-                    return Traccar.Style.mapColorMoving;
+                    retval = Traccar.Style.mapColorMoving;
                 } else if (speed > (speedLimit || 51)) {
-                    return Traccar.Style.mapColorSpeeding;
+                    retval = Traccar.Style.mapColorSpeeding;
                 }
             case 'offline':
-                return Traccar.Style.mapColorOffline;
+                retval = Traccar.Style.mapColorOffline;
             default:
-                return Traccar.Style.mapColorUnknown;
+                retval = Traccar.Style.mapColorUnknown;
         }
+        if (device.get('hasOverspeed')) {
+            retval = Traccar.Style.mapColorSpeeding;
+        }
+        return retval;
     },
 
     updateDevice: function (store, data) {

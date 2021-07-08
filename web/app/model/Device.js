@@ -116,5 +116,9 @@ Ext.define('Traccar.model.Device', {
         name: 'registrationSubCity',
         type: 'string',
         allowNull: true
+    }, {
+        name: 'hasOverspeed',
+        type: 'boolean',
+        allowNull: true
     }]
 });
