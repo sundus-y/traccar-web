@@ -32,11 +32,11 @@ Ext.define('Traccar.view.dialog.DeviceController', {
         }
     },
 
-    onChangeOwner: function() {
+    onChangeOwner: function () {
         var device = this.getView().down('form').getRecord();
         var dialog = Ext.create('Traccar.view.dialog.ChangeOwner');
         dialog.ownerChanged = false;
-        dialog.addListener('hide', function(dialog){
+        dialog.addListener('hide', function (dialog) {
             if (dialog.ownerChanged) {
                 Traccar.app.showToast('The Owner has been changed.', 'Device Updted');
                 this.closeView();
@@ -48,13 +48,15 @@ Ext.define('Traccar.view.dialog.DeviceController', {
         dialog.lookupReference('phone').setValue('');
         dialog.show();
     },
-    onShowOwnerHistory: function() {
+    onShowOwnerHistory: function () {
         var device = this.getView().down('form').getRecord();
         var attr_keys = Object.keys(device.data.attributes);
-        var hasPreviousOwner = attr_keys.some(function(k){return k.match(/Previous Owner .* Contact/)});
+        var hasPreviousOwner = attr_keys.some(function (k) {
+            return k.match(/Previous Owner .* Contact/);
+        });
         var previousOwnerData = [];
         if (hasPreviousOwner) {
-            Object.entries(device.data.attributes).forEach(function(entry) {
+            Object.entries(device.data.attributes).forEach(function (entry) {
                 var key = entry[0];
                 var value = entry[1];
                 var match_result = key.match(/Previous Owner (\d*) (.*)/);
@@ -66,14 +68,32 @@ Ext.define('Traccar.view.dialog.DeviceController', {
                     previousOwnerData[index][k] = value;
                 }
             });
+
+            for (var i = 0; i < previousOwnerData.length - 1; i++) {
+                previousOwnerData[i]['ChangedTo'] = '<b>Name:</b> ' + previousOwnerData[i + 1]['Contact'] +
+                    '<br /> <b>Gender:</b> ' + previousOwnerData[i + 1]['Gender'] +
+                    '<br /> <b>Phone:</b> ' + previousOwnerData[i + 1]['Phone'];
+                previousOwnerData[i]['ChangedFrom'] = '<b>Name:</b> ' + previousOwnerData[i]['Contact'] +
+                    '<br /> <b>Gender:</b> ' + previousOwnerData[i]['Gender'] +
+                    '<br /> <b>Phone:</b> ' + previousOwnerData[i]['Phone'];
+            }
+            previousOwnerData[previousOwnerData.length - 1]['ChangedTo'] = '<b>Name:</b> ' + device.data.contact +
+                '<br /> <b>Gender:</b> ' + device.data.gender +
+                '<br /> <b>Phone:</b> ' + device.data.phone;
+            previousOwnerData[previousOwnerData.length - 1]['ChangedFrom'] = '<b>Name:</b> ' + previousOwnerData[previousOwnerData.length - 1]['Contact'] +
+                '<br /> <b>Gender:</b> ' + previousOwnerData[previousOwnerData.length - 1]['Gender'] +
+                '<br /> <b>Phone:</b> ' + previousOwnerData[previousOwnerData.length - 1]['Phone'];
         }
 
         var fields = [
-            {name: 'ID', mapping: 'ID'},
-            {name: 'Contact', mapping: 'Contact'},
-            {name: 'Gender', mapping: 'Gender'},
-            {name: 'Phone', mapping: 'Phone'},
-            {name: 'End Date', mapping: 'End Date'}
+            {name: 'ID',
+                mapping: 'ID'},
+            {name: 'Changed From',
+                mapping: 'ChangedFrom'},
+            {name: 'Changed To',
+                mapping: 'ChangedTo'},
+            {name: 'End Date',
+                mapping: 'End Date'}
         ];
 
         var gridStore = new Ext.data.JsonStore({
@@ -83,11 +103,23 @@ Ext.define('Traccar.view.dialog.DeviceController', {
         });
 
         var cols = [
-            { id : 'ID', header: "No", width: 50, sortable: true, dataIndex: 'ID'},
-            {header: Strings.deviceContact, width: 220, sortable: true, dataIndex: 'Contact'},
-            {header: Strings.attributeGender, width: 80, sortable: true, dataIndex: 'Gender'},
-            {header: Strings.sharedPhone, width: 150, sortable: true, dataIndex: 'Phone'},
-            {header: Strings.endDate, width: 300, sortable: true, dataIndex: 'End Date'}
+            {id: 'ID',
+                header: 'No',
+                width: 50,
+                sortable: true,
+                dataIndex: 'ID'},
+            {header: Strings.changedFrom,
+                width: 300,
+                sortable: false,
+                dataIndex: 'ChangedFrom'},
+            {header: Strings.changedTo,
+                width: 300,
+                sortable: false,
+                dataIndex: 'ChangedTo'},
+            {header: Strings.changeDate,
+                width: 170,
+                sortable: false,
+                dataIndex: 'End Date'}
         ];
 
         Ext.create('Traccar.view.BaseWindow', {
@@ -96,14 +128,13 @@ Ext.define('Traccar.view.dialog.DeviceController', {
                 xtype: 'ownerChangeHistoryView',
                 store: gridStore,
                 columns: cols,
-                viewConfig:{
-                    forceFit:true,
-                    emptyText:'No Owner Change History.'
+                viewConfig: {
+                    forceFit: true,
+                    emptyText: 'No Owner Change History.'
                 }
             }
         }).show();
     }
-
 
 
 });
