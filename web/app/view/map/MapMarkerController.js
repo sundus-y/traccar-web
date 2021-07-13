@@ -141,6 +141,9 @@ Ext.define('Traccar.view.map.MapMarkerController', {
                 myColor = Traccar.Style.mapColorUnknown;
                 break;
         }
+        if (device.get('hasOverspeed')) {
+            myColor = Traccar.Style.mapColorSpeeding;
+        }
         return myColor;
     },
 
